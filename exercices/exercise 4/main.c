@@ -21,22 +21,30 @@ Digit* new_Digit(char value) {
 typedef struct Number {
     bool isPositive;
     int size;
-    Digit* mostSignificantDigit;
+    Digit* leastSignificantDigit;
 } Number;
 
-Number* new_Number() {
+Number* new_Number(bool isPositive) {
     Number* number = (Number*) malloc(sizeof(Number));
     number->isPositive = true;
     number->size = 0;
-    number->mostSignificantDigit = NULL;
+    number->leastSignificantDigit = NULL;
 
     return number;
 }
 
 void* add_Digit_to_Number(Digit* digit, Number* number){
     number->size +=1;
-    digit->next = number->mostSignificantDigit;
-    number->mostSignificantDigit = digit;
+    digit->next = number->leastSignificantDigit;
+    number->leastSignificantDigit = digit;
+}
+
+void* print_Number(Number* number) {
+    Digit* current_digit = number->leastSignificantDigit;
+    while(current_digit != NULL){
+        printf("%d", current_digit->value);
+        current_digit = current_digit->next;
+    }
 }
 
 int main (){
@@ -63,17 +71,18 @@ int main (){
 
         printf("%s %s %s\n", line,first_number_buffer,second_number_buffer);
         
-        Number* number = new_Number();
+        Number* number = new_Number(true);
 
 
         Digit* seven = new_Digit(7);
         Digit* eight = new_Digit(8);
 
         add_Digit_to_Number(seven, number);
+        add_Digit_to_Number(eight, number);
 
-        printf("%d %d", number->size, number->mostSignificantDigit->value);
+        print_Number(number);
         return 0;
-        //add_Digit_to_Number(eight, number);
+        
 
         //char carry = (a->value+b->value)/10;
         //char mod = (a->value+b->value)%10;
