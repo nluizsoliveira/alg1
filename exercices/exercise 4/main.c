@@ -2,6 +2,25 @@
 #include <readline.h>
 #include <string.h>
 #include <stdlib.h>
+#include<stdbool.h>
+
+
+typedef struct digit{
+    char value;
+    struct digit* next;
+} Digit;
+
+Digit* new_Digit(char value) {
+    Digit* digit = (Digit*) malloc(sizeof(Digit));
+    digit->next = NULL;
+    digit->value = value;
+
+    return digit;
+}
+
+
+
+
 
 int main (){
     int operations_amount;
@@ -27,10 +46,15 @@ int main (){
 
         printf("%s %s %s\n", line,first_number_buffer,second_number_buffer);
         
+        Digit* a = new_Digit(7);
+        Digit* b = new_Digit(7);
+
+        char carry = (a->value+b->value)/10;
+        char mod = (a->value+b->value)%10;
+
+
+        printf("%d %d %d %d\n", a->value,b->value, carry, mod);
     }
-
-
-
 
 }
 

@@ -18,7 +18,7 @@ char* read_line(){
 
     while(reading_line){
         scanf("%c", &current_letter);
-        if(current_letter == UNIX_LINEBREAK || current_letter == EOF){
+        if(current_letter == UNIX_LINEBREAK){
             reading_line = false;
         }
         else if(current_letter == WINDOWS_LINEBREAK) {
@@ -37,3 +37,4 @@ char* read_line(){
 
     return line; 
 }
+
