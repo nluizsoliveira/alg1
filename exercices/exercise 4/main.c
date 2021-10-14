@@ -2,7 +2,7 @@
 #include <readline.h>
 #include <string.h>
 #include <stdlib.h>
-#include<stdbool.h>
+#include <stdbool.h>
 
 
 typedef struct digit{
@@ -10,7 +10,7 @@ typedef struct digit{
     struct digit* next;
 } Digit;
 
-Digit* new_Digit(char value) {
+Digit* new_Digit(int value) {
     Digit* digit = (Digit*) malloc(sizeof(Digit));
     digit->next = NULL;
     digit->value = value;
@@ -69,18 +69,42 @@ int main (){
         second_number_buffer = (char *) malloc(strlen(line_split) * sizeof(char));
         strcpy(second_number_buffer, line_split);
 
-        printf("%s %s %s\n", line,first_number_buffer,second_number_buffer);
+        // printf("%s [%c] %s [%c] %s\n", line, first_number_buffer[0], first_number_buffer, second_number_buffer[0],second_number_buffer);
+
+        bool is_first_number_negative  = (first_number_buffer[0] == '-');
+        Number* first_number = new_Number(is_first_number_negative);
+        int position = 0;
+        int size = strlen(first_number_buffer);
         
-        Number* number = new_Number(true);
+        if(is_first_number_negative){
+            position = 1; 
+        }
+
+        for(position; position < size; position ++ ){
+            int value = first_number_buffer[position] - '0';
+            Digit* digit = new_Digit(value);
+            add_Digit_to_Number(digit, first_number);
+        }
 
 
-        Digit* seven = new_Digit(7);
-        Digit* eight = new_Digit(8);
+        bool is_second_number_negative  = (second_number_buffer[0] == '-');
+        Number* second_number = new_Number(is_second_number_negative);
+        position = 0;
+        size = strlen(second_number_buffer);
 
-        add_Digit_to_Number(seven, number);
-        add_Digit_to_Number(eight, number);
+        if(is_second_number_negative){
+            position = 1;
+        }
 
-        print_Number(number);
+        for(position; position < size; position ++ ){
+            int value = second_number_buffer[position] - '0';
+            Digit* digit = new_Digit(value);
+            add_Digit_to_Number(digit, second_number);
+        }
+
+        print_Number(first_number);
+        printf("\n");
+        print_Number(second_number);
         return 0;
         
 
