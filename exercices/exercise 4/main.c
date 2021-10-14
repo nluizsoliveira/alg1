@@ -18,9 +18,26 @@ Digit* new_Digit(char value) {
     return digit;
 }
 
+typedef struct Number {
+    bool isPositive;
+    int size;
+    Digit* mostSignificantDigit;
+} Number;
 
+Number* new_Number() {
+    Number* number = (Number*) malloc(sizeof(Number));
+    number->isPositive = true;
+    number->size = 0;
+    number->mostSignificantDigit = NULL;
 
+    return number;
+}
 
+void* add_Digit_to_Number(Digit* digit, Number* number){
+    number->size +=1;
+    digit->next = number->mostSignificantDigit;
+    number->mostSignificantDigit = digit;
+}
 
 int main (){
     int operations_amount;
@@ -46,14 +63,23 @@ int main (){
 
         printf("%s %s %s\n", line,first_number_buffer,second_number_buffer);
         
-        Digit* a = new_Digit(7);
-        Digit* b = new_Digit(7);
-
-        char carry = (a->value+b->value)/10;
-        char mod = (a->value+b->value)%10;
+        Number* number = new_Number();
 
 
-        printf("%d %d %d %d\n", a->value,b->value, carry, mod);
+        Digit* seven = new_Digit(7);
+        Digit* eight = new_Digit(8);
+
+        add_Digit_to_Number(seven, number);
+
+        printf("%d %d", number->size, number->mostSignificantDigit->value);
+        return 0;
+        //add_Digit_to_Number(eight, number);
+
+        //char carry = (a->value+b->value)/10;
+        //char mod = (a->value+b->value)%10;
+
+
+        //printf("%d %d %d %d\n", a->value,b->value, carry, mod);
     }
 
 }
