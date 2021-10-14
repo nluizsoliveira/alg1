@@ -47,6 +47,25 @@ void* print_Number(Number* number) {
     }
 }
 
+Number* get_Number_from_buffer(char* buffer){
+    bool is_number_negative  = (buffer[0] == '-');
+    Number* number = new_Number(is_number_negative);
+    int position = 0;
+    int size = strlen(buffer);
+    
+    if(is_number_negative){
+        position = 1; 
+    }
+
+    for(position; position < size; position ++ ){
+        int value = buffer[position] - '0';
+        Digit* digit = new_Digit(value);
+        add_Digit_to_Number(digit, number);
+    }
+
+    return number;
+}
+
 int main (){
     int operations_amount;
     scanf("%d ", &operations_amount);
@@ -69,38 +88,8 @@ int main (){
         second_number_buffer = (char *) malloc(strlen(line_split) * sizeof(char));
         strcpy(second_number_buffer, line_split);
 
-        // printf("%s [%c] %s [%c] %s\n", line, first_number_buffer[0], first_number_buffer, second_number_buffer[0],second_number_buffer);
-
-        bool is_first_number_negative  = (first_number_buffer[0] == '-');
-        Number* first_number = new_Number(is_first_number_negative);
-        int position = 0;
-        int size = strlen(first_number_buffer);
-        
-        if(is_first_number_negative){
-            position = 1; 
-        }
-
-        for(position; position < size; position ++ ){
-            int value = first_number_buffer[position] - '0';
-            Digit* digit = new_Digit(value);
-            add_Digit_to_Number(digit, first_number);
-        }
-
-
-        bool is_second_number_negative  = (second_number_buffer[0] == '-');
-        Number* second_number = new_Number(is_second_number_negative);
-        position = 0;
-        size = strlen(second_number_buffer);
-
-        if(is_second_number_negative){
-            position = 1;
-        }
-
-        for(position; position < size; position ++ ){
-            int value = second_number_buffer[position] - '0';
-            Digit* digit = new_Digit(value);
-            add_Digit_to_Number(digit, second_number);
-        }
+        Number* first_number = get_Number_from_buffer(first_number_buffer);
+        Number* second_number = get_Number_from_buffer(second_number_buffer);
 
         print_Number(first_number);
         printf("\n");
