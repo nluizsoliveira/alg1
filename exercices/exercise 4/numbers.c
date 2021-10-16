@@ -43,7 +43,7 @@ void* print_Number(Number* number) {
 
 
 Number* get_Number_from_buffer(char* buffer){
-    bool is_number_negative  = (buffer[0] == '-');
+    bool is_number_negative  = (int) buffer[0] == '-';
     Number* number = new_Number(is_number_negative);
     int position = 0;
     int size = strlen(buffer);
@@ -70,7 +70,7 @@ bool areNumbersEqual(Number* A, Number* B){
     Digit* current_B_digit = B->leastSignificantDigit;
 
     while(current_A_digit != NULL){
-        if(current_A_digit->value =! current_B_digit->value) {return false;}
+        if((current_A_digit->value && current_B_digit->value) == 0) {return false;}
         current_A_digit = current_A_digit->next;
         current_B_digit = current_B_digit->next;
     }
@@ -103,25 +103,37 @@ bool isNumberBiggerThanNumber(Number* A, Number* B){
         if(A->size < B->size) {return true;}
         if(A->size > B->size) {return false;}
     }
+    // ---- Corner cases: Numbers with same signals and digits -----
+    Digit* current_A_digit = A->leastSignificantDigit;
+    Digit* current_B_digit = B->leastSignificantDigit;
+
+    Number* digits_inequalities = new_Number(!A->isPositive);
     
-    // ---- Corner cases: Numbers with same signals and digits ----- 
-    // todo: both positives and both negatives. 
-    // I inserted in the beginning of the list. 
+    while(current_A_digit != NULL){
+        if(current_A_digit->value > current_B_digit->value){
+            Digit* isBigger = new_Digit(1);
+            add_Digit_to_Number(isBigger, digits_inequalities);
+        }
+        else if(current_A_digit->value < current_B_digit->value){
+            Digit* isSmaller = new_Digit(-1);
+            add_Digit_to_Number(isSmaller, digits_inequalities);
+        }
+        current_A_digit = current_A_digit->next;
+        current_B_digit = current_B_digit->next;
 
-    // for positives: 
-    // Allocate a vector with the same size of the number (since both have the same size). (or create a list, whtv, it will reverse it)
-    // Ffor every digit of the number (which is reversed, since I inserted in the beggining of the list)
-        // check if node(a) >= node(b) and fill the vector isAEqualOrBigger[size+1].
-    // Now we have filled isAEqualOrBigger[]. 
-    // Check from the end to the beginning if we have a sequence of trues. If there's a sequence of Trues from end->beginning, A is bigger. 
-    // Ex: 1234 vs 1225 is stored as:
-            // [4]-[3]-[2]-[1] vs [5]-[2]-[2]-[1] in Number.
-    // isAEqualOrBigger would be [false, true, true, true] 
-    // Which ends in a sequence of trues
-    // That means A is bigger. 
+    }
 
-    // for negatives: i believe it's similar but i'm exhausted of coding in (fighting against) C and I have no brain and time left to think/code. 
-    return true;
+    Digit* current_digit = digits_inequalities->leastSignificantDigit;
+    while(current_digit != NULL){
+        if(current_digit->value == 1){
+            return(A->isPositive)?true:false;
+        }
+        else if(current_digit->value == -1){
+            return(A->isPositive)?false:true;
+        }
+    }
+ 
+    return(A->isPositive)?false:true;
 }
 
 
