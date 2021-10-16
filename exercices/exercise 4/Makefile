@@ -1,5 +1,5 @@
 BINARY=trab4
-SOURCES=readline.c main.c
+SOURCES=readline.c numbers.c main.c
 INCLUDES=.
 
 all: clean compile clean
