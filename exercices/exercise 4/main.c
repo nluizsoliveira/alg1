@@ -26,7 +26,7 @@ typedef struct Number {
 
 Number* new_Number(bool isPositive) {
     Number* number = (Number*) malloc(sizeof(Number));
-    number->isPositive = true;
+    number->isPositive = isPositive;
     number->size = 0;
     number->leastSignificantDigit = NULL;
 
@@ -47,6 +47,7 @@ void* print_Number(Number* number) {
     }
 }
 
+
 Number* get_Number_from_buffer(char* buffer){
     bool is_number_negative  = (buffer[0] == '-');
     Number* number = new_Number(is_number_negative);
@@ -66,10 +67,27 @@ Number* get_Number_from_buffer(char* buffer){
     return number;
 }
 
+bool areNumbersEqual(Number* A, Number* B){
+    if(A->isPositive != B-> isPositive) {return false;}
+    if(A->size != B->size) {return false;}
+    
+
+    Digit* current_A_digit = A->leastSignificantDigit;
+    Digit* current_B_digit = B->leastSignificantDigit;
+
+    while(current_A_digit != NULL){
+        if(current_A_digit->value =! current_B_digit->value) {return false;}
+        current_A_digit = current_A_digit->next;
+        current_B_digit = current_B_digit->next;
+    }
+
+    return true;
+}
+
 int main (){
     int operations_amount;
     scanf("%d ", &operations_amount);
-    for(int counter = 0; counter < operations_amount; counter++){
+    for(int position = 0; position < operations_amount; position++){
         char* operation;
         char* first_number_buffer;
         char* second_number_buffer;
@@ -90,19 +108,24 @@ int main (){
 
         Number* first_number = get_Number_from_buffer(first_number_buffer);
         Number* second_number = get_Number_from_buffer(second_number_buffer);
-
-        print_Number(first_number);
-        printf("\n");
-        print_Number(second_number);
-        return 0;
         
 
-        //char carry = (a->value+b->value)/10;
-        //char mod = (a->value+b->value)%10;
+        if (strcmp(operation, "soma") == 0 ){
+            return 0;
+        }
+        else if (strcmp(operation, "maior") == 0 ) {
+            return 0;
+        }
+        else if (strcmp(operation, "menor") == 0 ) {
+            return 0;
+        }
+        else if(strcmp(operation, "igual") == 0 ){
+            bool areEqual = areNumbersEqual(first_number, second_number);
+            if(areEqual){printf("YES");}
+            else{printf("NO");}
+        }
+    } 
 
-
-        //printf("%d %d %d %d\n", a->value,b->value, carry, mod);
-    }
-
+    return 0;
 }
 
