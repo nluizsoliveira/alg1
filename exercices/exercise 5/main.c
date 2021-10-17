@@ -2,20 +2,8 @@
 #include<readline.h>
 #include<stdbool.h>
 #include<string.h>
-
-typedef struct game{
-    char* name;
-    char* company;
-    int year; 
-} Game;
-
-Game* new_Game(char*company, char*name, int year){
-    Game* game = (Game*) malloc (sizeof(Game*));
-    strcpy(game->name, name);
-    strcpy(game->company, company);
-    game->year = year;
-    return game;
-}
+#include<stdlib.h>
+#include<game.h>
 
 int main (){
     char csv_filepath[10]= "./CSV.csv";
@@ -23,13 +11,35 @@ int main (){
 
     FILE* csv = fopen(csv_filepath, mode);
 
-    char* line = read_line_from_file(csv);
-    bool is_line_valid = strlen(line);
+    char* line;
+    int is_line_valid = true;
+    char* name;
+    char* year;
+    char* company;
+    
 
     while(is_line_valid){
         line = read_line_from_file(csv);
         is_line_valid = strlen(line);
+
+        if(is_line_valid){
+            char* split = strtok(line, ";");
+            name = (char*) malloc(sizeof(char) * strlen(split));
+            strcpy(name, split);
+
+            split = strtok(NULL, ";");
+            year =  (char*) malloc(sizeof(char) * strlen(split));
+            strcpy(year, split);
+    
+            split = strtok(NULL, ";");
+            company = (char*) malloc(sizeof(char) * strlen(split));
+            strcpy(company, split);
+
+            Game* game = new_Game(name, year, company);
+            printf("[%s][%s][%s]\n", game->name, game->year, game->company);
+        }
     }
+    printf("saiu\n");
     fclose(csv);
     return 0;
 }
