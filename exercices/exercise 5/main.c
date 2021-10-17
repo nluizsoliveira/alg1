@@ -4,6 +4,7 @@
 #include<string.h>
 #include<stdlib.h>
 #include<game.h>
+#include<catalog.h>
 
 int main (){
     char csv_filepath[10]= "./CSV.csv";
@@ -17,6 +18,7 @@ int main (){
     char* year;
     char* company;
     
+    Catalog* catalog = new_Catalog();
 
     while(is_line_valid){
         line = read_line_from_file(csv);
@@ -36,10 +38,10 @@ int main (){
             strcpy(company, split);
 
             Game* game = new_Game(name, year, company);
-            printf("[%s][%s][%s]\n", game->name, game->year, game->company);
+            add_Game_to_Catalog(game, catalog);
         }
     }
-    printf("saiu\n");
+    print_Catalog(catalog);
     fclose(csv);
     return 0;
 }
