@@ -1,5 +1,5 @@
 BINARY=trab5
-SOURCES=readline.c main.c
+SOURCES=readline.c main.c game.c
 INCLUDES=.
 
 all: clean compile clean
