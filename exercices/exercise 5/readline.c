@@ -17,8 +17,10 @@ char* read_line_from_file(FILE* file){
     
 
     while(reading_line){
-        fscanf(file, "%c", &current_letter);
-        if(current_letter == UNIX_LINEBREAK || current_letter == EOF){
+        if(fscanf(file, "%c", &current_letter) == EOF) {
+            return "";
+        }
+        if(current_letter == UNIX_LINEBREAK){
             reading_line = false;
         }
         else if(current_letter == WINDOWS_LINEBREAK) {
