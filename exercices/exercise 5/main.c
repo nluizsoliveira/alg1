@@ -7,11 +7,17 @@
 #include<catalog.h>
 
 int main (){
-    char csv_filepath[10]= "./CSV.csv";
+    char csv_filepath[10]= "CSV.csv";
     char mode[1] = "r";
 
     FILE* csv = fopen(csv_filepath, mode);
 
+    char ghost_byte;
+
+    fscanf(csv,"%c", &ghost_byte);
+    fscanf(csv,"%c", &ghost_byte);
+    fscanf(csv,"%c", &ghost_byte);
+    
     char* line;
     int is_line_valid = true;
     char* name;
@@ -25,18 +31,11 @@ int main (){
         is_line_valid = strlen(line);
 
         if(is_line_valid){
-            char* split = strtok(line, ";");
-            name = (char*) malloc(sizeof(char) * strlen(split));
-            strcpy(name, split);
+            name = (char*) malloc(sizeof(char) * strlen(line));
+            year = (char*) malloc(sizeof(char) *strlen(line));
+            company = (char*) malloc(sizeof(char) *strlen(line));
 
-            split = strtok(NULL, ";");
-            year =  (char*) malloc(sizeof(char) * strlen(split));
-            strcpy(year, split);
-    
-            split = strtok(NULL, ";");
-            company = (char*) malloc(sizeof(char) * strlen(split));
-            strcpy(company, split);
-
+            sscanf(line, "%[^;]s%[^;]s%[^;]s", name, year, company);
             Game* game = new_Game(name, year, company);
             add_Game_to_Catalog(game, catalog);
         }
