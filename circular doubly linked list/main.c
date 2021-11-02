@@ -43,16 +43,50 @@ int main (){
 
     int is_there_input = true;
 
-    while(is_there_input){
-        char* input = read_line();
-        is_there_input = strlen(input);
+    while (is_there_input) {
+        char * input = read_line();
 
-        if(strcmp(input, "i") == 0){
+        is_there_input = strlen(input);
+        if (!is_there_input) {
+            return 0;
+        }
+
+        if (input[0] == 'i') {
             print_Catalog(catalog);
         }
+        else if (input[0] == 'p') {
+            // p Nintendo
+            // faz o parse 
+            // busca todos os jogos da Nintendo
+            // imprime todos os jogos da nintendo
+        }
+        else if (input[0] == 'r') {
+            // remove todos os jogos duplicados
+        }
+        else if (input[0] == 'a') {
+            // a 2010
+            // fazo parse
+            // retorna todos os jogos lançados no ano
+        }
+        else if (input[0] == 'f') {
+            // implementar função que libera todos games dentro de catalogo. 
+            // Lembrar de apontar ponteiros para NULL após dar free. 
+            fclose(csv);
+            return 0;
+        }
+        else if (input[0] == 'u') {
+            // u 5
+            // imprime o jogo na posição “int” do catálogo.
+        }
+        else if (input[0] == 'm' && input[1] == 'r') {
+            // mr 3 6 
+            // o usuário deve mover 6 casas para a direita o jogo que está na casa 3.
+        }
+        else if (input[0] == 'm' && input[1] == 'l') {
+            // ml 3 6 
+            // o usuário deve mover 6 casas para a esquerda o jogo que está na casa 3.
+        }
     }
-    
-    fclose(csv);
-    return 0;
+
 }
 
