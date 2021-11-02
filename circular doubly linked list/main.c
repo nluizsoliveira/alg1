@@ -40,7 +40,18 @@ int main (){
             add_Game_to_Catalog(game, catalog);
         }
     }
-    print_Catalog(catalog);
+
+    int is_there_input = true;
+
+    while(is_there_input){
+        char* input = read_line();
+        is_there_input = strlen(input);
+
+        if(strcmp(input, "i") == 0){
+            print_Catalog(catalog);
+        }
+    }
+    
     fclose(csv);
     return 0;
 }
