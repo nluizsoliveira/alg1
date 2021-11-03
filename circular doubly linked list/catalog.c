@@ -1,6 +1,7 @@
 #include<catalog.h>
 #include<stdlib.h>
 #include<stdio.h>
+#include<string.h>
 
 Catalog* new_Catalog(){
     Catalog* catalog = (Catalog*) malloc(sizeof(Catalog));
@@ -36,6 +37,17 @@ void print_Catalog(Catalog* catalog){
     Game* game = catalog->first;
     for(int counter = 0; counter < catalog->size; counter++) {
         printf("%s\n", game->name);
+        game = game->next;
+    }
+}
+
+void print_Catalog_by_company(Catalog* catalog, char* company){
+    Game* game = catalog->first;
+    for(int counter = 0; counter < catalog->size; counter++) {
+        printf("entrou. counter = %d, company = %s, game->name = %s, game-> year = %s, game->company = %s\n", counter, company, game->name, game->year,game->company);
+        if(strcmp(company, game->company) == 0){
+            printf("%s\n", game->name);
+        }
         game = game->next;
     }
 }

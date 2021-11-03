@@ -34,8 +34,7 @@ int main (){
             name = (char*) malloc(sizeof(char) * strlen(line));
             year = (char*) malloc(sizeof(char) *strlen(line));
             company = (char*) malloc(sizeof(char) *strlen(line));
-
-            sscanf(line, "%[^;]s%[^;]s%[^;]s", name, year, company);
+            sscanf(line, "%[^;];%[^;];%[^;]", name, year, company);
             Game* game = new_Game(name, year, company);
             add_Game_to_Catalog(game, catalog);
         }
@@ -55,10 +54,9 @@ int main (){
             print_Catalog(catalog);
         }
         else if (input[0] == 'p') {
-            // p Nintendo
-            // faz o parse 
-            // busca todos os jogos da Nintendo
-            // imprime todos os jogos da nintendo
+            char* company = (char*) malloc(sizeof(char) * strlen(input));
+            sscanf(input, "p %[^\r\n]", company);
+            print_Catalog_by_company(catalog, company);
         }
         else if (input[0] == 'r') {
             // remove todos os jogos duplicados
