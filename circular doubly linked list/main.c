@@ -77,16 +77,24 @@ int main (){
             print_game_at_Catalog_position(catalog, position);
         }
         else if (input[0] == 'm' && input[1] == 'r') {
-            // mr 3 6 
-            // o usuário deve mover 6 casas para a direita o jogo que está na casa 3.
+            int position;
+            int quantity;
+            
+           
+
+            sscanf(input, "mr %d %d", &position, &quantity);
+            position = position % catalog->size;
+            quantity = quantity % catalog->size;
+            move_Catalogue_game_at_position_quantity_times_right(catalog, position, quantity);
         }
         else if (input[0] == 'm' && input[1] == 'l') {
             int position;
             int quantity;
+            
             sscanf(input, "ml %d %d", &position, &quantity);
+            position = position % catalog->size;
+            quantity = quantity % catalog->size;
             move_Catalogue_game_at_position_quantity_times_left(catalog, position, quantity);
-            // ml 3 6 
-            // o usuário deve mover 6 casas para a esquerda o jogo que está na casa 3.
         }
     }
 

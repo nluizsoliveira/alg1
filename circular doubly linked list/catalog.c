@@ -49,7 +49,7 @@ void add_Game_to_Catalog(Game* game, Catalog* catalog){
 void print_Catalog(Catalog* catalog){
     Game* game = catalog->first;
     for(int counter = 0; counter < catalog->size; counter++) {
-        printf("%s\n", game->name);
+        printf("%d %s\n", counter, game->name);
         game = game->next;
     }
 }
@@ -87,25 +87,29 @@ void print_game_at_Catalog_position(Catalog* catalog, int position){
     printf("%s\n", game->name);
 }
 
+// Funções abaixo estão bugadas para caso de teste 4. (mr 19 1). Modificar para mover lista inteira caso
+// estoure a borda
+void move_Catalogue_game_at_position_quantity_times_right(Catalog* catalog, int position, int quantity) {
+    Game* game = catalog->first;
+    for(int counter = 0; counter < position; counter++) {
+        game = game->next;
+    }
+    while(quantity > 0) {
+        swap_games(game, game->next);
+        quantity--;
+        game = game->next;
+    }
+}
+
 void move_Catalogue_game_at_position_quantity_times_left(Catalog* catalog, int position, int quantity) {
     Game* game = catalog->first;
+
     for(int counter = 0; counter < position; counter++) {
         game = game->next;
     }
 
     while(quantity > 0) {
-        char* tmp_name = game->name;
-        char* tmp_year = game->year;
-        char* tmp_company = game->company;
-
-        game->name = game->before->name;
-        game->year = game->before->year;
-        game->company = game->before->company;
-
-        game->before->name = tmp_name;
-        game->before->year = tmp_year;
-        game->before->company = tmp_company;
-
+        swap_games(game, game->before);
         quantity--;
         game = game->before;
     }
