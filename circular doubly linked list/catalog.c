@@ -60,3 +60,16 @@ void print_Catalog_by_year(Catalog* catalog, char* year){
         game = game->next;
     }
 }
+
+
+void remove_duplicated_games_from_Catalog(Catalog* catalog) {
+    
+}
+
+void print_game_at_Catalog_position(Catalog* catalog, int position){
+    Game* game = catalog->first;
+    for(int counter = 0; counter < position; counter++) {
+        game = game->next;
+    }
+    printf("%s\n", game->name);
+}

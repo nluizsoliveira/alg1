@@ -59,7 +59,7 @@ int main (){
             print_Catalog_by_company(catalog, company);
         }
         else if (input[0] == 'r') {
-            // remove todos os jogos duplicados
+            remove_duplicated_games_from_Catalog(catalog);
         }
         else if (input[0] == 'a') {
             char* year = (char*) malloc(sizeof(char) * strlen(input));
@@ -73,8 +73,8 @@ int main (){
             return 0;
         }
         else if (input[0] == 'u') {
-            // u 5
-            // imprime o jogo na posição “int” do catálogo.
+            int position = input[2] - '0';
+            print_game_at_Catalog_position(catalog, position);
         }
         else if (input[0] == 'm' && input[1] == 'r') {
             // mr 3 6 
