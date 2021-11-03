@@ -1,6 +1,7 @@
 #include<game.h>
 #include<stdlib.h>
 #include<string.h>
+#include<stdio.h>
 
 Game* new_Game(char*name, char*year, char*company){
     Game* game = (Game*) malloc (sizeof(Game));
@@ -31,5 +32,12 @@ void* swap_games(Game* game1, Game*game2){
     game2->name = tmp_name;
     game2->year = tmp_year;
     game2->company = tmp_company;
+}
+
+char* getGameId(Game* game){
+    int id_size = strlen(game->name) + strlen(game->year) + strlen(game->company);
+    char* id = (char*) malloc(sizeof(char)*id_size);
+    snprintf(id , id_size, "%s%s%s", game->name, game->year, game->company);
+    return id;
 }
 

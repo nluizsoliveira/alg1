@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<stdio.h>
 #include<string.h>
+#include<stdbool.h>
 
 Catalog* new_Catalog(){
     Catalog* catalog = (Catalog*) malloc(sizeof(Catalog));
@@ -76,7 +77,15 @@ void print_Catalog_by_year(Catalog* catalog, char* year){
 
 
 void remove_duplicated_games_from_Catalog(Catalog* catalog) {
-    
+    Game* game = catalog->first;
+    char** allIds = (char**) malloc(sizeof(char*) * (catalog->size));
+
+    for(int counter = 0; counter < catalog->size; counter++) {
+        allIds[counter] = getGameId(game);
+        game = game->next;
+    }
+
+    printf("%s\n", game->name);
 }
 
 void print_game_at_Catalog_position(Catalog* catalog, int position){
