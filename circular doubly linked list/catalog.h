@@ -12,4 +12,5 @@ Catalog* new_Catalog();
 void add_Game_to_Catalog(Game* game, Catalog* catalog);
 void print_Catalog(Catalog* catalog);
 void print_Catalog_by_company(Catalog* catalog, char* company);
+void print_Catalog_by_year(Catalog* catalog, char* company);
 #endif

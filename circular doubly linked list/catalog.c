@@ -50,3 +50,13 @@ void print_Catalog_by_company(Catalog* catalog, char* company){
         game = game->next;
     }
 }
+
+void print_Catalog_by_year(Catalog* catalog, char* year){
+    Game* game = catalog->first;
+    for(int counter = 0; counter < catalog->size; counter++) {
+        if(strcmp(year, game->year) == 0){
+            printf("%s\n", game->name);
+        }
+        game = game->next;
+    }
+}

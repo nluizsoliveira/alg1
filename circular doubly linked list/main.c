@@ -62,9 +62,9 @@ int main (){
             // remove todos os jogos duplicados
         }
         else if (input[0] == 'a') {
-            // a 2010
-            // fazo parse
-            // retorna todos os jogos lançados no ano
+            char* year = (char*) malloc(sizeof(char) * strlen(input));
+            sscanf(input, "a %[^\r\n]", year);
+            print_Catalog_by_year(catalog, year);
         }
         else if (input[0] == 'f') {
             // implementar função que libera todos games dentro de catalogo. 
