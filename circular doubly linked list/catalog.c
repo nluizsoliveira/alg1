@@ -49,7 +49,7 @@ void add_Game_to_Catalog(Game* game, Catalog* catalog){
 void print_Catalog(Catalog* catalog){
     Game* game = catalog->first;
     for(int counter = 0; counter < catalog->size; counter++) {
-        printf("%d %s\n", counter, game->name);
+        printf("%s\n",game->name);
         game = game->next;
     }
 }
