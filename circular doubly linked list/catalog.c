@@ -11,23 +11,36 @@ Catalog* new_Catalog(){
     return catalog;
 };
 
+// to be refactored
 void add_Game_to_Catalog(Game* game, Catalog* catalog){
     if(catalog->size == 0) {
         catalog->first = game;
     }
 
     else if(catalog->size == 1) {
-        catalog->first->next = game;
-        catalog->first->before = game;
         game->next = catalog->first;
         game->before = catalog->first;
+
+        catalog->first->next = game;
+        catalog->first->before = game;
+        
+    }
+
+    else if (catalog->size == 2) {
+        game->next = catalog->first;
+        game->before = catalog->first->next;
+        
+
+        catalog->first->before->next = game;
+        catalog->first->before= game;
     }
 
     else {
+        game->next = catalog->first;
+        game->before = catalog->first->before;
+
         catalog->first->before->next = game;
         catalog->first->before= game;
-        game->before = catalog->first->before;
-        game->next = catalog->first;
     }
 
     catalog->size++;
@@ -72,4 +85,28 @@ void print_game_at_Catalog_position(Catalog* catalog, int position){
         game = game->next;
     }
     printf("%s\n", game->name);
+}
+
+void move_Catalogue_game_at_position_quantity_times_left(Catalog* catalog, int position, int quantity) {
+    Game* game = catalog->first;
+    for(int counter = 0; counter < position; counter++) {
+        game = game->next;
+    }
+
+    while(quantity > 0) {
+        char* tmp_name = game->name;
+        char* tmp_year = game->year;
+        char* tmp_company = game->company;
+
+        game->name = game->before->name;
+        game->year = game->before->year;
+        game->company = game->before->company;
+
+        game->before->name = tmp_name;
+        game->before->year = tmp_year;
+        game->before->company = tmp_company;
+
+        quantity--;
+        game = game->before;
+    }
 }

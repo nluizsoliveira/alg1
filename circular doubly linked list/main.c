@@ -81,6 +81,10 @@ int main (){
             // o usuário deve mover 6 casas para a direita o jogo que está na casa 3.
         }
         else if (input[0] == 'm' && input[1] == 'l') {
+            int position;
+            int quantity;
+            sscanf(input, "ml %d %d", &position, &quantity);
+            move_Catalogue_game_at_position_quantity_times_left(catalog, position, quantity);
             // ml 3 6 
             // o usuário deve mover 6 casas para a esquerda o jogo que está na casa 3.
         }
