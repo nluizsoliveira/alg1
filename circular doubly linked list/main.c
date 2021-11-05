@@ -73,7 +73,8 @@ int main (){
             return 0;
         }
         else if (input[0] == 'u') {
-            int position = input[2] - '0';
+            int position;
+            sscanf(input, "u %d", &position);
             print_game_at_Catalog_position(catalog, position);
         }
         else if (input[0] == 'm' && input[1] == 'r') {
