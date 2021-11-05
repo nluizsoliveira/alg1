@@ -78,14 +78,26 @@ void print_Catalog_by_year(Catalog* catalog, char* year){
 
 void remove_duplicated_games_from_Catalog(Catalog* catalog) {
     Game* game = catalog->first;
-    char** allIds = (char**) malloc(sizeof(char*) * (catalog->size));
-
     for(int counter = 0; counter < catalog->size; counter++) {
-        allIds[counter] = getGameId(game);
-        game = game->next;
-    }
+        Game* game_stop_point = game;
+        char* unique_game_id = getGameId(game);
+        for(int post_counter = counter+1; post_counter < catalog->size; post_counter++) {
+            Game* game_before = game;
+            game = game->next;
+            Game* game_next = game->next;
 
-    printf("%s\n", game->name);
+            char* checking_game_id = getGameId(game);
+            if(strcmp(unique_game_id, checking_game_id) == 0){
+                game_before->next = game_next;
+                game_next->before = game_before;
+                catalog->size--;
+                //free(game);
+                //game = NULL;
+            }
+        }
+
+        game = game_stop_point->next;
+    }
 }
 
 void print_game_at_Catalog_position(Catalog* catalog, int position){
