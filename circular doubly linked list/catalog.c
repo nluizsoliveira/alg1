@@ -21,7 +21,6 @@ void add_Game_to_Catalog(Game* game, Catalog* catalog){
     else if(catalog->size == 1) {
         game->next = catalog->first;
         game->before = catalog->first;
-
         catalog->first->next = game;
         catalog->first->before = game;
         
@@ -30,8 +29,6 @@ void add_Game_to_Catalog(Game* game, Catalog* catalog){
     else if (catalog->size == 2) {
         game->next = catalog->first;
         game->before = catalog->first->next;
-        
-
         catalog->first->before->next = game;
         catalog->first->before= game;
     }
@@ -39,7 +36,6 @@ void add_Game_to_Catalog(Game* game, Catalog* catalog){
     else {
         game->next = catalog->first;
         game->before = catalog->first->before;
-
         catalog->first->before->next = game;
         catalog->first->before= game;
     }
@@ -49,7 +45,7 @@ void add_Game_to_Catalog(Game* game, Catalog* catalog){
 
 void print_Catalog(Catalog* catalog){
     Game* game = catalog->first;
-    for(int counter = 0; counter < catalog->size; counter++) {
+    for(int position = 0; position < catalog->size; position++) {
         printf("%s\n",game->name);
         game = game->next;
     }
@@ -57,7 +53,7 @@ void print_Catalog(Catalog* catalog){
 
 void print_Catalog_by_company(Catalog* catalog, char* company){
     Game* game = catalog->first;
-    for(int counter = 0; counter < catalog->size; counter++) {
+    for(int position = 0; position < catalog->size; position++) {
         if(strcmp(company, game->company) == 0){
             printf("%s\n", game->name);
         }
@@ -67,7 +63,7 @@ void print_Catalog_by_company(Catalog* catalog, char* company){
 
 void print_Catalog_by_year(Catalog* catalog, char* year){
     Game* game = catalog->first;
-    for(int counter = 0; counter < catalog->size; counter++) {
+    for(int position = 0; position < catalog->size; position++) {
         if(strcmp(year, game->year) == 0){
             printf("%s\n", game->name);
         }
@@ -78,10 +74,10 @@ void print_Catalog_by_year(Catalog* catalog, char* year){
 
 void remove_duplicated_games_from_Catalog(Catalog* catalog) {
     Game* game = catalog->first;
-    for(int counter = 0; counter < catalog->size; counter++) {
+    for(int position = 0; position < catalog->size; position++) {
         Game* game_stop_point = game;
         char* unique_game_id = getGameId(game);
-        for(int post_counter = counter+1; post_counter < catalog->size; post_counter++) {
+        for(int post_position = position+1; post_position < catalog->size; post_position++) {
             Game* game_before = game;
             game = game->next;
             Game* game_next = game->next;
@@ -91,8 +87,6 @@ void remove_duplicated_games_from_Catalog(Catalog* catalog) {
                 game_before->next = game_next;
                 game_next->before = game_before;
                 catalog->size--;
-                //free(game);
-                //game = NULL;
             }
         }
 
@@ -100,19 +94,18 @@ void remove_duplicated_games_from_Catalog(Catalog* catalog) {
     }
 }
 
-void print_game_at_Catalog_position(Catalog* catalog, int position){
+void print_game_at_Catalog_position(Catalog* catalog, int arg_position){
     Game* game = catalog->first;
-    for(int counter = 0; counter < position; counter++) {
+    for(int position = 0; position < arg_position; position++) {
         game = game->next;
     }
     printf("%s\n", game->name);
 }
 
-// Funções abaixo estão bugadas para caso de teste 4. (mr 19 1). Modificar para mover lista inteira caso
-// estoure a borda
-void move_Catalogue_game_at_position_quantity_times_right(Catalog* catalog, int position, int quantity) {
+// Funções abaixo estão bugadas para caso de teste 4. (mr 19 1). Modificar para pular primeiro item 
+void move_Catalogue_game_at_position_quantity_times_right(Catalog* catalog, int arg_position, int quantity) {
     Game* game = catalog->first;
-    for(int counter = 0; counter < position; counter++) {
+    for(int position = 0; position < arg_position; position++) {
         game = game->next;
     }
     while(quantity > 0) {
@@ -122,10 +115,10 @@ void move_Catalogue_game_at_position_quantity_times_right(Catalog* catalog, int 
     }
 }
 
-void move_Catalogue_game_at_position_quantity_times_left(Catalog* catalog, int position, int quantity) {
+void move_Catalogue_game_at_position_quantity_times_left(Catalog* catalog, int arg_position, int quantity) {
     Game* game = catalog->first;
 
-    for(int counter = 0; counter < position; counter++) {
+    for(int position = 0; position < arg_position; position++) {
         game = game->next;
     }
 
