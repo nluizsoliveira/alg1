@@ -41,3 +41,14 @@ char* getGameId(Game* game){
     return id;
 }
 
+void free_Game(Game* game){
+    free(game->name);
+    free(game->year);
+    free(game->company);
+    game->name = NULL;
+    game->year = NULL;
+    game->company = NULL;
+
+    free(game);
+    game = NULL;
+}

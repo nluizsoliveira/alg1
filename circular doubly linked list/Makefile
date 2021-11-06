@@ -15,4 +15,4 @@ run:
 	@./trab5
 
 zip:
-	zip -r trab5.zip *.c *.h Makefile
+	zip -r trab5.zip *.c *.h Makefile readme.txt

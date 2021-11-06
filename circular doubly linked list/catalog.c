@@ -128,3 +128,14 @@ void move_Catalogue_game_at_position_quantity_times_left(Catalog* catalog, int a
         game = game->before;
     }
 }
+
+void free_Catalog(Catalog* catalog){
+    Game* first_game = catalog->first;
+    Game* second_game = first_game->next;
+
+    while(second_game != NULL){
+        free_Game(first_game);
+        first_game = second_game;
+        second_game = first_game->next;
+    }
+}

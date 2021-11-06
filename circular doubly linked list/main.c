@@ -85,6 +85,7 @@ int main (){
             print_Catalog_by_year(catalog, year);
         }
         else if (first_command == FREE) {
+            free_Catalog(catalog);
             fclose(csv);
             return 0;
         }

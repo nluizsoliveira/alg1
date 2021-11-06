@@ -13,5 +13,5 @@ typedef struct game{
 Game* new_Game(char*name, char*year, char*company);
 void* swap_games(Game* game1, Game*game2);
 char* getGameId(Game* game);
-
+void free_Game(Game* game);
 #endif
