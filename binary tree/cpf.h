@@ -19,4 +19,5 @@ static const unsigned long long int PARSE_CPF_EXPECTED_OUTPUTS[5] = {
 
 unsigned long long int parse_cpf(const char* cpf_with_special_characters);
 void test_parse_cpf();
+void print_cpf(long long int cpf);
 #endif

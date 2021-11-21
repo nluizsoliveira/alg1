@@ -13,14 +13,14 @@ void test_parse_cpf(){
             printf("Test %d passed ✅\n", pos);
             passed_cases++;
         }else{
-            printf("Test %d reproved ❌\n", pos);
+            printf("Test %d failed ❌\n", pos);
             printf("\tInput: %s --- Output: %llu --- Expected output: %llu\n",input, cpf, expected_output);
         }
     }
     if(passed_cases == cases){
         printf("========= Test Parse CPF [%d/%d] PASSED ✅ =========\n", passed_cases, cases);
     } else{
-        printf("========= Test Parse CPF [%d/%d] REPROVED ❌ =========\n", passed_cases, cases);
+        printf("========= Test Parse CPF [%d/%d] FAILED ❌ =========\n", passed_cases, cases);
     }
 }
 
@@ -34,4 +34,8 @@ unsigned long long int parse_cpf(const char* cpf_with_special_characters){
     sscanf(cpf_with_special_characters, "%llu.%llu.%llu-%llu", &billions, &millions, &thousands, &tenths);
     unsigned long long cpf = tenths + 100 * thousands + 100000 * millions + 100000000 * billions;
     return cpf;
+}
+
+void print_cpf(long long int cpf){
+    printf("%lli\n", cpf);
 }
