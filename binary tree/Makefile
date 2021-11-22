@@ -1,5 +1,5 @@
 BINARY=trab5
-SOURCES=main.c cpf.c readline.c
+SOURCES=main.c cpf.c readline.c memory.c person.c node.c tree.c
 INCLUDES=.
 
 all: clean compile clean
