@@ -51,13 +51,11 @@ bool is_unix_linebreak(char char_){
 bool is_windows_linebreak(char char_, FILE* file) {
     const char WINDOWS_LINEBREAK = '\r';
     char extra_linebreak;
-
-    bool is_windows_linebreak = char_ == WINDOWS_LINEBREAK;
-    if(is_windows_linebreak){
+    if(char_ == WINDOWS_LINEBREAK){
         extra_linebreak = read_char(file);
+        return true;
     }
-
-    return is_windows_linebreak;
+    return false;
 }
 
 
