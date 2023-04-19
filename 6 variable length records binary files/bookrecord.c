@@ -13,7 +13,7 @@ Book_Record* new_book_record(Book* book, int last_byteoffset, int last_size){
     book_record-> second_separator = '\n';
     book_record-> len_author = strlen(book->author);
     book_record-> size = get_size(book_record);
-    book_record-> byte_offset = get_byte_offset(last_byteoffset, last_size);
+    book_record-> byte_offset = get_byteoffset(last_byteoffset, last_size);
 
     return book_record;
 }
@@ -24,16 +24,20 @@ int get_size(Book_Record* book_record){
     // ex: 10The Hunger Games|15Suzanne Collins-1
 
     Book* book = book_record-> book; 
+    printf("--- Entering get_size\n");
+    print_book_record(book_record);
 
     int sizeId = sizeof(book->id);
-    int sizeTitle = sizeof(book->title);
-    int separator1Size = sizeof(book_record->first_separator);
-    int authorLenSize = sizeof(book_record->len_author);
-    int authorLen = strlen(book->author);
-    int separator2Size = sizeof(char);
+    int lenTitle= strlen(book->title);
+    int sizeSeparator1 = sizeof(book_record->first_separator);
+    int sizeAuthorLen = sizeof(book_record->len_author);
+    int lenAuthor = strlen(book->author);
+    int sizeSeparator2 = sizeof(book_record->second_separator);
+ 
 
-    return sizeId + sizeTitle + separator1Size + 
-            authorLenSize + authorLen + authorLenSize; 
+    return sizeId + lenTitle + sizeSeparator1 + 
+            sizeAuthorLen + lenAuthor + sizeSeparator2; 
+    
 }
 
 int get_byteoffset(int last_byteoffset, int last_size){
