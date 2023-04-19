@@ -3,15 +3,7 @@
 #include<string.h>
 #include<readline.h>
 #include<book.h>
-
-
-typedef struct book_record{
-    Book* book;
-    int len_author; 
-    char first_separator; 
-    char second_separator; 
-    int byte_offset;
-} Book_Record;
+#include<bookrecord.h>
 
 Book* new_book_from_stdin(){
     int   id     ; scanf("%d ", &id);
@@ -32,9 +24,18 @@ int main(){
     int num_records; 
     scanf("%d ", &num_records);
     
+    int last_byteoffset = 0;
+    int last_size = 0; 
     for(int record = 0; record < num_records; record++){
         Book* book = new_book_from_stdin();
-        print_book(book);
+        Book_Record* book_record = new_book_record(
+            book,
+            last_byteoffset,
+            last_size
+        );
+        last_byteoffset = book_record->byte_offset;
+        last_size = book_record->size; 
+        printf("-->%d<--\n", last_byteoffset);
         // char bin_record[100];
         // sprintf(bin_record, "%d%s|%d%s\n", id, title, len_author, author);
 

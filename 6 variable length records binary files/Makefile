@@ -1,5 +1,5 @@
 BINARY=trab5
-SOURCES=main.c readline.c memory.c book.c
+SOURCES=main.c readline.c memory.c book.c bookrecord.c
 INCLUDES=.
 
 all: clean compile clean
