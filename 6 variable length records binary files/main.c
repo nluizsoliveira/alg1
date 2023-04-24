@@ -9,17 +9,18 @@ Book* new_book_from_stdin(){
     int   id     ; scanf("%d ", &id);
     char* title  = read_line(stdin);
     char* author = read_line(stdin);
-
     return new_book(id, title, author);
 }
 
 int main(){
     FILE *file;
+    FILE *file2; 
     file = fopen("file","wb");
     if (file == NULL){
     	printf("error creating file\n");
     	exit;
 	}
+
 
     int num_records; 
     scanf("%d ", &num_records);
@@ -33,9 +34,11 @@ int main(){
             last_byteoffset,
             last_size
         );
+        write_book_record(file, book_record);
+
         last_byteoffset = book_record->byte_offset;
         last_size = book_record->size; 
-        printf("-->%d<--\n", last_byteoffset);
+        
         // char bin_record[100];
         // sprintf(bin_record, "%d%s|%d%s\n", id, title, len_author, author);
 
@@ -53,6 +56,16 @@ int main(){
 
     int num_restored_records; 
     scanf("%d", & num_restored_records);
+
+    fclose(file);
+    file2 = fopen("file","rb");
+    if (file == NULL){
+    	printf("error creating file\n");
+    	exit;
+	}
+
+    read_book_record(file2);
+    fclose(file2);
 
     return 0;
 }
