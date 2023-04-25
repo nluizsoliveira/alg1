@@ -12,8 +12,8 @@ typedef struct index{
 } Index; 
 
 Index_Line* new_index_line(int id; int byte_offset); 
-void* write_index(FILE* file, Index_Line** index);
-Book Record* read_book_record_from_index(FILE* file, int id);
+void* write_index(FILE* file, Index* index);
+Book Record** read_last_N_index_lines(Index* index, int N);
 
 
 #endif
