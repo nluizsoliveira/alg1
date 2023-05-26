@@ -22,17 +22,9 @@ OPERATIONS = {
 def parse_input(input_):
     regex = r"(?P<operation>\w*)?( id='(?P<id>[^']*)')?( titulo='(?P<title>[^']*)')?( autor='(?P<author>[^']*)')?"
     match = re.search(regex, input_)
-    
-    operation = match.group('operation')
-    id_ = match.group('id')
-    title = match.group('title')
-    author = match.group('author')
-    
-    return operation, (id_, title, author)
+    return match.groupdict().values()
 
 operation = ''
 while operation != 'EXIT':
-    operation, args = parse_input(input())
+    operation, *args = parse_input(input())
     OPERATIONS[operation](*args)
-    
-    
