@@ -3,11 +3,11 @@ import re
 def add(id_, title, author):
     print(id_, title, author)
 
-def remove(id_, *kw):
-    print(id_)
+def remove(id_ , title , author):
+    print(id_, title, author)
 
-def search(id_, *kw):
-    print(id_)
+def search(id_, title, author):
+    print(id_, title, author)
 
 def exit(*kw):
     print('exit')
