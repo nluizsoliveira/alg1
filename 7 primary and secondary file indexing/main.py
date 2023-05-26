@@ -69,28 +69,86 @@ file_rb = open("file", "rb")
 
 # id,user,password|id,user,password|...
 
+from struct import pack, unpack, calcsize
 
-id_ = 12
-separator1 = b','
-user = 'user'
-password = 'password'
-separator2 = b'|'
+file_wb = open("file", "wb")
 
-def get_struct_format(user, password):
-    #int char char[len(user)] char char[len(password)] char
-    return f"ic{'c'*len(user)}c{'c'*len(password)}c"
+class StructElement():
+    def __init__(self, type_, content):
+        self.type_ = type_
+        self.content = content 
+        self.pack_format = self.get_pack_format()
+        
+    def get_pack_format(self):
+        match self.type_:
+            case 'int':
+                return 'i'
+            case 'char':
+                return 'c'
+            case 'str':
+                return f'{len(self.content)}s'
+                
+class Struct():
+    def __init__(self):
+        self.contents = []
+        self.pack_format = ''
+
+    def push(self, element):
+        self.contents.append(element.content)
+        self.pack_format += element.pack_format
     
-    
-struct_format = get_struct_format(user, password) # 'iccccccccccccccc'
+    def pack(self):
+        return pack(self.pack_format, *self.contents)
+        
+# 12,username,password|
+struct_contents = [
+    ['int' , 12],
+    ['char', b','],
+    ['str' , bytes('username', encoding='utf-8')],
+    ['char', b','],
+    ['str' , bytes('password', encoding='utf-8')],
+    ['char', b'|'],
+]
 
-# binary_stream = struct.pack(struct_format, id_, separator1, *user, separator1, *password, separator2)
-# unpacked = struct.unpack(struct_format)
+struct = Struct()
+for content in struct_contents:
+    element = StructElement(*content)
+    struct.push(element)
 
-binary_stream = pack('ici', 3 , b',', 2)
+binary_stream = struct.pack() # works ?
+print(struct.pack_format)
+file_wb.write(binary_stream) # works ?
+
+# file_rb = open("file", "rb")
+# binary_stream_size = calcsize(struct.pack_format)
+# binary_content = file_rb.read(binary_stream_size) #contains b''
+# contents = unpack(struct.pack_format, binary_content)
+
+print(contents)
+
+
+from struct import pack, unpack, calcsize
+
+integer = 42
+char    = b'c'
+string  = bytes('string', encoding='utf-8')
+pack_format = 'ic6s'
+
+binary_stream = pack(pack_format, integer, char, string)
+
+file_wb = open("file", "wb")
 file_wb.write(binary_stream)
-odio = file_rb.read()
+file_wb.close()
 
-treco = unpack('ici', odio)
-print(treco)
+file_rb = open("file", "rb")
+binary_content = file_rb.read()
+content = unpack(pack_format, binary_content)
+
+print(content)
+
+
+
+
+
 
 
