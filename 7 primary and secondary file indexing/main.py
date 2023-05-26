@@ -1,18 +1,15 @@
 import re
 
-def add(args):
-    id_, title, author = args
+def add(id_, title, author):
     print(id_, title, author)
 
-def remove(args):
-    id_, _, _ = args
+def remove(id_, *kw):
     print(id_)
 
-def search(args):
-    id_, _, _ = args
+def search(id_, *kw):
     print(id_)
 
-def exit(args):
+def exit(*kw):
     print('exit')
 
 OPERATIONS = {
@@ -36,4 +33,6 @@ def parse_input(input_):
 operation = ''
 while operation != 'EXIT':
     operation, args = parse_input(input())
-    OPERATIONS[operation](args)
+    OPERATIONS[operation](*args)
+    
+    
