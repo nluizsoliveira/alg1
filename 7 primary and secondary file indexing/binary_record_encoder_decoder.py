@@ -1,6 +1,6 @@
 from struct import pack, unpack, calcsize
 
-class FieldEncodePreparer():
+class FieldPreEncoder():
     @staticmethod
     def get_encodable_field(type_, field):
         if type_ == int:
@@ -20,8 +20,8 @@ class FieldEncodePreparer():
     @staticmethod
     def prepare_encode(field):
         type_ = type(field)
-        encodable_field = FieldEncodePreparer.get_encodable_field(type_, field)
-        pack_format = FieldEncodePreparer.get_pack_format(type_,field)
+        encodable_field = FieldPreEncoder.get_encodable_field(type_, field)
+        pack_format = FieldPreEncoder.get_pack_format(type_,field)
 
         return encodable_field, pack_format
 
@@ -37,7 +37,7 @@ class FieldDecoder():
 class RecordEncoder():
     @staticmethod
     def encode(*fields):
-            all_packs_format, all_encodable_fields = RecordEncoder.prepare_all_encodes(fields)
+            all_packs_format, all_encodable_fields = RecordEncoder.prepare_all_encodings(fields)
 
             stream_size = calcsize(all_packs_format)
             binary_stream = pack(all_packs_format, *all_encodable_fields)
@@ -45,12 +45,12 @@ class RecordEncoder():
             return stream_size, binary_stream, all_packs_format
     
     @staticmethod
-    def prepare_all_encodes(fields):
+    def prepare_all_encodings(fields):
         all_packs_format = ''
         all_encodable_fields = []
 
         for field in fields:
-            encodable_field, pack_format = FieldEncodePreparer.prepare_encode(field)
+            encodable_field, pack_format = FieldPreEncoder.prepare_encode(field)
             all_encodable_fields.append(encodable_field)
             all_packs_format += pack_format
         
