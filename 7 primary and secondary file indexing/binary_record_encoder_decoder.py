@@ -1,8 +1,8 @@
 from struct import pack, unpack, calcsize
 
-class FieldEncoder():
+class FieldEncodePreparer():
     @staticmethod
-    def get_bytes(type_, field):
+    def get_encodable_field(type_, field):
         if type_ == int:
             return field
         elif type_ == str:
@@ -18,12 +18,12 @@ class FieldEncoder():
             return f'{len(field)}s'
     
     @staticmethod
-    def encode(field):
+    def prepare_encode(field):
         type_ = type(field)
-        bytes = FieldEncoder.get_bytes(type_, field)
-        pack_format = FieldEncoder.get_pack_format(type_,field)
+        encodable_field = FieldEncodePreparer.get_encodable_field(type_, field)
+        pack_format = FieldEncodePreparer.get_pack_format(type_,field)
 
-        return bytes, pack_format
+        return encodable_field, pack_format
 
 class FieldDecoder():
     @staticmethod
@@ -37,24 +37,24 @@ class FieldDecoder():
 class RecordEncoder():
     @staticmethod
     def encode(*fields):
-            total_pack_format, total_bytes = RecordEncoder.aglutinate_fields(fields)
+            all_packs_format, all_encodable_fields = RecordEncoder.prepare_all_encodes(fields)
 
-            stream_size = calcsize(total_pack_format)
-            binary_stream = pack(total_pack_format, *total_bytes)
+            stream_size = calcsize(all_packs_format)
+            binary_stream = pack(all_packs_format, *all_encodable_fields)
             
-            return stream_size, binary_stream, total_pack_format
+            return stream_size, binary_stream, all_packs_format
     
     @staticmethod
-    def aglutinate_fields(fields):
-        total_pack_format = ''
-        total_bytes = []
+    def prepare_all_encodes(fields):
+        all_packs_format = ''
+        all_encodable_fields = []
 
         for field in fields:
-            bytes, pack_format = FieldEncoder.encode(field)
-            total_bytes.append(bytes)
-            total_pack_format += pack_format
+            encodable_field, pack_format = FieldEncodePreparer.prepare_encode(field)
+            all_encodable_fields.append(encodable_field)
+            all_packs_format += pack_format
         
-        return total_pack_format, total_bytes
+        return all_packs_format, all_encodable_fields
 
 class RecordDecoder():
     @staticmethod
