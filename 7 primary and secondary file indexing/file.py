@@ -26,3 +26,9 @@ class File():
         file.close()
 
         return fields
+
+    def read_entire_file(self):
+        file = open(self.path, 'rb')
+        buffer = file.read()
+        file.close()
+        return buffer

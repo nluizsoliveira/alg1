@@ -27,5 +27,12 @@ def test_read_records(appended_records):
         fields = record_file.read_at_position(insert_position, size, format)
         print('\trecovered: ', fields)
 
-# appended_records = test_append_records()
-# test_read_records(appended_records)
+def test_read_entire_file():
+    print('Test Read Entire File')
+    buffer = record_file.read_entire_file()
+    print(buffer)
+    return buffer
+
+appended_records = test_append_records()
+test_read_records(appended_records)
+test_read_entire_file()
