@@ -33,6 +33,6 @@ def test_read_entire_file():
     print(buffer)
     return buffer
 
-appended_records = test_append_records()
-test_read_records(appended_records)
-test_read_entire_file()
+# appended_records = test_append_records()
+# test_read_records(appended_records)
+# test_read_entire_file()

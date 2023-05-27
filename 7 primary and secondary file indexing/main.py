@@ -1,6 +1,8 @@
 import re
-from binary_record_encoder_decoder import RecordEncoder, RecordDecoder
 from file import File
+from primary_index import PrimaryIndex
+
+from binary_record_encoder_decoder import RecordEncoder, RecordDecoder
 encode = RecordEncoder.encode
 decode = RecordDecoder.decode
 
