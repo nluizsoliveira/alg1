@@ -2,6 +2,14 @@ from struct import pack, unpack, calcsize
 
 class FieldPreEncoder():
     @staticmethod
+    def prepare_encoding(field):
+        type_ = type(field)
+        encodable_field = FieldPreEncoder.get_encodable_field(type_, field)
+        pack_format = FieldPreEncoder.get_pack_format(type_,field)
+
+        return encodable_field, pack_format
+
+    @staticmethod
     def get_encodable_field(type_, field):
         if type_ == int:
             return field
@@ -16,14 +24,6 @@ class FieldPreEncoder():
             return 'c'
         elif type_ == str:
             return f'{len(field)}s'
-    
-    @staticmethod
-    def prepare_encode(field):
-        type_ = type(field)
-        encodable_field = FieldPreEncoder.get_encodable_field(type_, field)
-        pack_format = FieldPreEncoder.get_pack_format(type_,field)
-
-        return encodable_field, pack_format
 
 class FieldDecoder():
     @staticmethod
@@ -50,7 +50,7 @@ class RecordEncoder():
         all_encodable_fields = []
 
         for field in fields:
-            encodable_field, pack_format = FieldPreEncoder.prepare_encode(field)
+            encodable_field, pack_format = FieldPreEncoder.prepare_encoding(field)
             all_encodable_fields.append(encodable_field)
             all_packs_format += pack_format
         
