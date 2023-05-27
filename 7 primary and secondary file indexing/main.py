@@ -1,26 +1,20 @@
 import re
-import io
-import struct
+from binary_record_encoder_decoder import RecordEncoder, RecordDecoder
+from file import File
+encode = RecordEncoder.encode
+decode = RecordDecoder.decode
 
-# índice primário 
-#   id: chave
-# índice secundário
-#   autor: chave
-#   acoplamento fraco
+#  last_byteoffset + last_size;
+# Baixa indice primário
+# Parseia indice primario 
+# Procura por id = id_
+# Se existir, imprime erro
+# Se não existir, 
+def add(id_, title, author, record_file):
+    record_file.write(int(id_), title, author)
 
-# 3 arquivos: 
-#   1. arquivo de fato
-#   2. índice primário
-#   3. índice secundário 
+    print('Registro inserido')
 
-def get_binary_stream(*kwargs):
-    
-
-def add(id_, title, author):
-    file_wb = open("file", "wb")
-    binary_stream = pack(pack_format, id_, title, author)
-
-    print(id_, title, author)
     
 def remove(id_ , title , author):
     print(id_, title, author)
@@ -41,16 +35,18 @@ OPERATIONS = {
 def parse_input(input_):
     regex = (r"(?P<operation>\w*)?"
              r"( id='(?P<id>[^']*)')?"
-             r"( titulo='(?P<title>[^']*)')?
+             r"( titulo='(?P<title>[^']*)')?"
              r"( autor='(?P<author>[^']*)')?")
     match = re.search(regex, input_)
     return match.groupdict().values()
 
+record_file = File('file')
+    
 operation = ''
 while operation != 'EXIT':
     operation, *args = parse_input(input())
     print('----------------------------------------------------------')
-    OPERATIONS[operation](*args)
+    OPERATIONS[operation](*args, record_file)
     
 
 # id,user,password|id,user,password|...
