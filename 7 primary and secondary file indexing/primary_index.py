@@ -11,17 +11,13 @@ class PrimaryIndex():
         self.RAM_index = None
     
     # Doubt: Should appending/deleting be bufferized? performance x reliability to unexpected interrupts 
-    def append(self, id_, pack_format, record_file_start_position):
-        record = self.search(id_)
-        if record:
-            print('Erro ao inserir registro, chave primária duplicada')
-        else:
-            index_line = self.get_index_line(id_, pack_format, record_file_start_position)
-            self.file.append_record(index_line)
-            self.RAM_index.update({id_: (pack_format, record_file_start_position)})
+    def append(self, id_, stream_size, pack_format, record_file_start_position):
+        index_line = self.get_index_line(id_, stream_size, pack_format, record_file_start_position)
+        self.file.append_record(index_line)
+        self.RAM_index.update({id_: (stream_size, pack_format, record_file_start_position)})
 
-    def get_index_line(self, id_, pack_format, start_position):
-        return f'{id_}{self.SEP_1}{pack_format}{self.SEP_1}{start_position}{self.SEP_2}'
+    def get_index_line(self, id_, stream_size, pack_format, start_position):
+        return f'{id_}{self.SEP_1}{stream_size}{self.SEP_1}{pack_format}{self.SEP_1}{start_position}{self.SEP_2}'
 
     def search(self, id_):
         if not self.RAM_index:
@@ -45,8 +41,8 @@ class PrimaryIndex():
         index_list = [line.split(',') for line in index_lines]
 
         RAM_index = {
-            int(id_): (pack_format, start_position) 
-            for id_, pack_format, start_position in index_list
+            int(id_): (stream_size, pack_format, start_position) 
+            for id_, stream_size, pack_format, start_position in index_list
         }
 
         return RAM_index

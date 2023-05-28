@@ -2,35 +2,40 @@ import re
 from file import File
 from primary_index import PrimaryIndex
 
-from binary_record_encoder_decoder import RecordEncoder, RecordDecoder
-encode = RecordEncoder.encode
-decode = RecordDecoder.decode
+def add(id_, title, author, record_file, primary_index):
+    record = primary_index.search(id_)
+    if record:
+        print('Erro ao inserir registro, chave primária duplicada')
+    else:
+        stream_size, pack_format, append_position = record_file.append_record((id_, title, author))
+        primary_index.append(id_, stream_size, pack_format, append_position)
+        print('Registro inserido')
 
-#  last_byteoffset + last_size;
-# Baixa indice primário
-# Parseia indice primario 
-# Procura por id = id_
-# Se existir, imprime erro
-# Se não existir, 
-def add(id_, title, author, record_file):
-    record_file.write(int(id_), title, author)
+def remove(id_ , title , author, record_file, primary_index):
+    pass
 
-    print('Registro inserido')
+def search(id_, title, author, record_file, primary_index):
+    if id_:
+        record = primary_index.search(id_)
+        if record:
+            id_, stream_size, pack_format, position = record
+            position = int(position)
+            stream_size = int(stream_size)
+            id_, title, author = record_file.read_at_position(position, stream_size, pack_format)
+            print(f'{id_} - {title} - {author}')
+        else:
+            print('Não encontrado')
 
-    
-def remove(id_ , title , author):
-    print(id_, title, author)
-
-def search(id_, title, author):
-    print(id_, title, author)
+    elif author: 
+        pass # record = secondary_index.search(author)
 
 def exit(*kw):
-    print('exit')
+    print('EXIT')
 
 OPERATIONS = {
     'ADD': add,
-    'SEARCH': remove,
-    'REMOVE': search,
+    'SEARCH': search,
+    'REMOVE': remove,
     'EXIT': exit,
 }
 
@@ -43,12 +48,15 @@ def parse_input(input_):
     return match.groupdict().values()
 
 record_file = File('file')
-    
+primary_index = PrimaryIndex('primary_index')
+
 operation = ''
 while operation != 'EXIT':
-    operation, *args = parse_input(input())
+    operation, id_, title, author = parse_input(input())
+    if id_:
+        id = int(id_)
     print('----------------------------------------------------------')
-    OPERATIONS[operation](*args, record_file)
+    OPERATIONS[operation](id_,title, author, record_file, primary_index)
     
 
 # id,user,password|id,user,password|...
