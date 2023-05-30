@@ -1,4 +1,4 @@
-all: env run exit
+all: env run clean
 
 env:
 	python3 -m venv env
@@ -8,9 +8,10 @@ env:
 run:
 	python3 project/main.py
 
-exit:
+clean:
 	rm -rf env
 	rm -rf project.egg-info
+	rm -f trab.zip
 
 zip:
 	zip -r trab.zip *.py Makefile
