@@ -1,6 +1,6 @@
 import re
-from project.file import File
-from project.primary_index import PrimaryIndex
+from project.binary_files_handlers.file import File
+from project.indexers.primary_index import PrimaryIndex
 
 def add(id_, title, author, record_file, primary_index):
     record = primary_index.search(id_)

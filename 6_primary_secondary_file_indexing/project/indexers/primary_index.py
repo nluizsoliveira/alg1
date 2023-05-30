@@ -1,4 +1,4 @@
-from project.file import File
+from project.binary_files_handlers.file import File
 
 # id, start_position, pack_format
 class PrimaryIndex():

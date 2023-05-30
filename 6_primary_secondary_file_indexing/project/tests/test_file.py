@@ -1,9 +1,10 @@
-from file_indexing.file import File
+from project.binary_files_handlers.file import File
 
 record_file = File('file')
 
 def test_append_records():
-    print('Test Append')
+    print(" ========== TEST APPEND RECORDS ========= ")
+
     records = [
         (int('5'), 'The Diary of a Young Girl', 'Anne Frank'),
         (int('8'), 'The Fault in Our Stars', 'John Green'),
@@ -21,14 +22,14 @@ def test_append_records():
     
 
 def test_read_records(appended_records):
-    print('Test Read Records')
+    print(" ========== TEST READ RECORDS ========= ")
     for id_, size, format, insert_position in appended_records: 
         print('\trecovering: ', insert_position, size, format)
         fields = record_file.read_at_position(insert_position, size, format)
         print('\trecovered: ', fields)
 
 def test_read_entire_file():
-    print('Test Read Entire File')
+    print(" ========== TEST READ ENTIRE FILE ========= ")
     buffer = record_file.read_entire_file()
     print(buffer)
     return buffer

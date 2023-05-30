@@ -1,5 +1,5 @@
 from os.path import exists, getsize
-from project.binary_record_encoder_decoder import RecordEncoder, RecordDecoder
+from project.binary_files_handlers.binary_record_encoder_decoder import RecordEncoder, RecordDecoder
 
 encode = RecordEncoder.encode
 decode = RecordDecoder.decode
