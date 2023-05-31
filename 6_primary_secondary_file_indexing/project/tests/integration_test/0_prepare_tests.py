@@ -1,10 +1,13 @@
-from os import path, listdir, mkdir
+from os import path, listdir, mkdir, remove
 from shutil import rmtree
-from project.tests.integration_test import INPUTS_PATH, EXPECTED_OUTPUTS_PATH, OUTPUT_FILES_PATH
+from project.tests.integration_test import INPUTS_PATH, EXPECTED_OUTPUTS_PATH, OUTPUT_FILES_PATH, DUMPED_STDOUT_PATH
 
 def clean_tests():
     if path.isdir(OUTPUT_FILES_PATH):
         rmtree(OUTPUT_FILES_PATH)
+    
+    if path.isdir(DUMPED_STDOUT_PATH):
+        rmtree(DUMPED_STDOUT_PATH)
 
 def check_IO_folders():
     inputs_folder = path.isdir(INPUTS_PATH)
@@ -31,6 +34,7 @@ def check_IO_folders():
 
 def prepare_folder_structure():
     mkdir(OUTPUT_FILES_PATH)
+    mkdir(DUMPED_STDOUT_PATH)
     for i in range(1, qtd_inputs+1):
         mkdir(OUTPUT_FILES_PATH + str(i))
 
