@@ -5,7 +5,21 @@ class Orchestrator:
     def __init__(self, outputs_folder):
         self.records_file = File(outputs_folder + 'records_file')
         self.primary_index = PrimaryIndex(outputs_folder + 'primary_index')
+        
     
+    def call(self, operation, *args):
+        OPERATIONS = {
+            'ADD': self.add,
+            'SEARCH': self.search,
+            'REMOVE': self.remove,
+            'EXIT': self.exit,
+        }
+
+        OPERATIONS[operation](*args)
+        
+        if operation != 'EXIT':
+            print('-------------------')
+
     def add(self, id_, *args):
         ERROR_MSG = 'Erro ao inserir registro, chave primária duplicada'
         SUCCESS_MSG = 'Registro inserido'

@@ -5,13 +5,8 @@ project.egg-info/PKG-INFO
 project.egg-info/SOURCES.txt
 project.egg-info/dependency_links.txt
 project.egg-info/top_level.txt
-project/binary_files_handlers/__init__.py
-project/binary_files_handlers/binary_record_encoder_decoder.py
-project/binary_files_handlers/file.py
-project/indexers/__init__.py
-project/indexers/primary_index.py
 project/tests/__init__.py
-project/tests/test_binary_record_encoder_decoder.py
-project/tests/test_file.py
-project/tests/test_primary_index.py
-project/tests/test_struct_pack_unpack.py
+project/tests/integration_test/0_clean_folder_structure.py
+project/tests/integration_test/1_process_inputs.py
+project/tests/integration_test/2_assert_outputs.py
+project/tests/integration_test/__init__.py
