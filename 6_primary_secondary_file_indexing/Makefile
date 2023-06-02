@@ -1,5 +1,5 @@
-test: clean env run_test
-all: clean env run
+test: env run_test
+all: clean_tmp env run
 zip: clean_tmp clean_env zip
 commit: clean_tmp clean_env
 
@@ -19,4 +19,4 @@ zip:
 	sh make_scripts/zip.sh
 
 run_test:
-	bash test.sh
+	sh make_scripts/test.sh
