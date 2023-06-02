@@ -1,31 +1,22 @@
-test: clean_env env prepare_tests process_inputs assert_outputs
-all: env run clean_env
+test: clean env run_test
+all: clean env run
+zip: clean_tmp clean_env zip
+commit: clean_tmp clean_env
 
 env:
-	python3 -m venv env
-	. env/bin/activate
-	pip install -e .
+	sh make_scripts/set_env.sh
 
 run:
 	python3 project/main.py
 
+clean_tmp:
+	sh make_scripts/clean_tmp.sh
+
 clean_env:
-	rm -rf env
-	rm -rf project.egg-info
-	rm -f trab.zip
-	rm -rf project/output_files
+	sh make_scripts/clean_env.sh
 
-prepare_tests:
-	cd project/tests/integration_test/; \
-	python3 0_prepare_tests.py
-
-process_inputs:
-	cd project/tests/integration_test/; \
-	python3 1_process_inputs.py > dumped_stdout/stdout
-
-assert_outputs:
-	cd project/tests/integration_test/; \
-	python3 2_assert_outputs.py
-	
 zip:
-	zip -r trab.zip *.py Makefile
+	sh make_scripts/zip.sh
+
+run_test:
+	bash test.sh

@@ -1,6 +1,5 @@
-expected_outputs_paths = ['expected_outputs/1.out', 
-                        'expected_outputs/2.out', 
-                        'expected_outputs/3.out', 
-                        'expected_outputs/4.out', 
-                        'expected_outputs/5.out', 
-                        'expected_outputs/6.out']
+
+from os import listdir
+from project.modules.orchestrator import Orchestrator
+from project.modules.parsers.input_parser import parse_input
+from project.tests.integration_test import EXPECTED_OUTPUTS_PATH, DUMPED_STDOUT_PATH

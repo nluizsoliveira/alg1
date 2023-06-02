@@ -1,0 +1,11 @@
+SEARCH autor='John Green'
+ADD id='8' titulo='The Fault in Our Stars' autor='John Green'
+ADD id='14' titulo='Looking for Alaska' autor='John Green'
+ADD id='101' titulo='An Abundance of Katherines' autor='John Green'
+ADD id='102' titulo='Paper Towns' autor='John Green'
+ADD id='103' titulo='Turtles All the Way Down' autor='John Green'
+ADD id='78' titulo='Through the Dark' autor='Alexandra Bracken'
+SEARCH autor='John Green'
+SEARCH autor='Anne Frank'
+SEARCH autor='Alexandra Bracken'
+EXIT

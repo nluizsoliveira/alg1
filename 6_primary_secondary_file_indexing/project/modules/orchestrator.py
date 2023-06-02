@@ -2,11 +2,12 @@ from project.modules.binary_handlers.file import File
 from project.modules.indexers.primary_index import PrimaryIndex
 
 class Orchestrator:
-    def __init__(self, outputs_folder):
-        self.records_file = File(outputs_folder + 'records_file')
-        self.primary_index = PrimaryIndex(outputs_folder + 'primary_index')
-        
-    
+    def __init__(self, folder, debug, debug_path=None):
+        self.records_file = File(folder + 'records_file')
+        self.primary_index = PrimaryIndex(folder + 'primary_index')
+        self.debug = debug
+        self.debug_path = debug_path
+
     def call(self, operation, *args):
         OPERATIONS = {
             'ADD': self.add,
@@ -15,10 +16,17 @@ class Orchestrator:
             'EXIT': self.exit,
         }
 
-        OPERATIONS[operation](*args)
-        
         if operation != 'EXIT':
-            print('-------------------')
+            self.log('----------------------------------------------------------')
+        
+        OPERATIONS[operation](*args)
+    
+    def log(self, string):
+        if not self.debug: 
+            print(string)
+        else:
+            dump_file = open(self.debug_path, 'a')
+            dump_file.write(string + '\n')
 
     def add(self, id_, *args):
         ERROR_MSG = 'Erro ao inserir registro, chave primária duplicada'
@@ -26,10 +34,10 @@ class Orchestrator:
 
         compressed_record = self.primary_index.search(id_)
         if compressed_record:
-            print(ERROR_MSG)
+            self.log(ERROR_MSG)
         else:
             self.append_to_all_files(id_, *args)
-            print(SUCCESS_MSG)
+            self.log(SUCCESS_MSG)
 
     def append_to_all_files(self, id_, *args):
         compressed_record = self.records_file.append_record((id_, *args))
@@ -39,7 +47,7 @@ class Orchestrator:
         if id_:
             self.search_by_id(id_)
         elif author: 
-            print("TODO: Search for author")
+            self.log("TODO: Search for author")
     
     def search_by_id(self, id_):
         compressed_record = self.primary_index.search(id_)
@@ -48,17 +56,16 @@ class Orchestrator:
             record = self.records_file.read_at_position(position, stream_size, pack_format)
             self.print_found_record(*record)
         else:
-            print('Não encontrado')
+            self.log('Não encontrado')
     
-    @staticmethod
-    def print_found_record(id_, title, author):
-        print(f'{id_} - {title} - {author}')
+    def print_found_record(self, id_, title, author):
+        self.log(f'{id_} - {title} - {author}')
 
     def remove(self, *args):
-        print(f"TODO: remove {args}")
+        self.log(f"TODO: remove {args}")
     
     def exit(self, *args):
-        print(f"TODO: exit {args}")
+        pass
 
 
 

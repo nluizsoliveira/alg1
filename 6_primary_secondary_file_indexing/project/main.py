@@ -1,8 +1,12 @@
 from project.modules.orchestrator import Orchestrator
-from project.parsers.input_parser import parse_input
+from project.modules.parsers.input_parser import parse_input
 
-RECORDS_FILE_AND_INDEXES_FOLDER = 'outputs_folder/'
-orchestrator = Orchestrator(RECORDS_FILE_AND_INDEXES_FOLDER)
+RECORDS_FILE_AND_INDEXES_FOLDER = 'project/output_files/'
+
+orchestrator = Orchestrator(
+    folder = RECORDS_FILE_AND_INDEXES_FOLDER,
+    debug = False, 
+)
 
 operation = ''
 while operation != 'EXIT':
