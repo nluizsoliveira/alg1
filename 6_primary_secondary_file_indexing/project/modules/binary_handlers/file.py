@@ -10,15 +10,16 @@ class File():
         self.size = self.get_file_size()
     
     def append_record(self,fields):
+        IS_ACTIVE = 1
         file = open(self.path, 'ab')
         appending_position = file.tell()
 
-        stream_size, binary_stream, pack_format = encode(*fields)
+        stream_size, binary_stream, pack_format = encode(*fields, IS_ACTIVE)
         file.write(binary_stream)
         file.close()
 
         self.size = self.get_file_size()
-        return stream_size, pack_format, appending_position
+        return appending_position, stream_size, pack_format
     
     def read_at_position(self, position, stream_size, pack_format):
         file = open(self.path, 'rb')
@@ -28,6 +29,17 @@ class File():
         file.close()
 
         return fields
+    
+    def delete_record(self, position, stream_size, pack_format):
+        IS_NOT_ACTIVE = 0
+
+        flag_size, binary_flag, flag_format = encode(IS_NOT_ACTIVE)
+        edit_position = position + stream_size - flag_size
+
+        file = open(self.path, 'r+b')
+        file.seek(edit_position)
+        file.write(binary_flag)
+        file.close()
 
     def read_entire_file(self):
         file = open(self.path, 'rb')
