@@ -61,8 +61,20 @@ class Orchestrator:
     def print_found_record(self, id_, title, author):
         self.log(f'{id_} - {title} - {author}')
 
-    def remove(self, *args):
-        self.log(f"TODO: remove {args}")
+    # Logically removing on indexes
+    def remove(self, id_, *args):
+        pass
+        if id: 
+            compressed_record = self.primary_index.search(id_)
+            if compressed_record:
+                id_, stream_size, pack_format, position = compressed_record
+                self.primary_index.remove(compressed_record)
+                self.records_file.remove(compressed_record)
+            else:
+                self.log('Erro ao remover')
+        
+        else:
+            self.log('Erro ao remover')
     
     def exit(self, *args):
         pass

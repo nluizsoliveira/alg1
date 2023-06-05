@@ -1,0 +1,9 @@
+setup.py
+project/__init__.py
+project/main.py
+project.egg-info/PKG-INFO
+project.egg-info/SOURCES.txt
+project.egg-info/dependency_links.txt
+project.egg-info/top_level.txt
+project/tests/__init__.py
+project/tests/integration_test/__init__.py

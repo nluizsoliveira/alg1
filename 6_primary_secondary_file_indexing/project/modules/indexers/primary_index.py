@@ -10,26 +10,26 @@ class PrimaryIndex():
         self.RAM_index = self.get_RAM_index()
     
     # Doubt: Should appending/deleting be bufferized? performance x reliability to unexpected interrupts 
-    def append(self, id_, stream_size, pack_format, position):
+    def append(self, id_, position, stream_size, pack_format):
         is_duplicate = self.search(id_)
         if is_duplicate:
             return -1
-        index_line = self.get_index_line(id_, stream_size, pack_format, position)
+        index_line = self.get_index_line(id_, position, stream_size, pack_format)
         id_, position, stream_size = self.cast_args_to_int((id_, position, stream_size))
         self.file.append_record(index_line)
-        self.RAM_index.update({id_: (stream_size, pack_format, position)})
+        self.RAM_index.update({id_: (position, stream_size, pack_format)})
         return 1
 
-    def get_index_line(self, id_, stream_size, pack_format, start_position):
-        return f'{id_}{self.SEP_1}{stream_size}{self.SEP_1}{pack_format}{self.SEP_1}{start_position}{self.SEP_2}'
+    def get_index_line(self, id_, start_position, stream_size, pack_format):
+        return f'{id_}{self.SEP_1}{start_position}{self.SEP_1}{stream_size}{self.SEP_1}{pack_format}{self.SEP_2}'
 
     def search(self, id_):
         id_ = int(id_)
         compressed_values = self.RAM_index.get(id_)
         if compressed_values: 
-            stream_size, pack_format, position = compressed_values
-            stream_size, position = self.cast_args_to_int((stream_size, position))
-            return id_, stream_size, pack_format, position
+            position, stream_size, pack_format  = compressed_values
+            position, stream_size  = self.cast_args_to_int((position, stream_size))
+            return id_, position, stream_size, pack_format
         return None
     
     @staticmethod
@@ -50,9 +50,9 @@ class PrimaryIndex():
         index_list = [line.split(',') for line in index_lines]
 
         RAM_index = {
-            int(id_): (stream_size, pack_format, start_position) 
-            for id_, stream_size, pack_format, start_position in index_list
+            int(id_): (start_position, stream_size, pack_format) 
+            for id_, start_position, stream_size, pack_format in index_list
         }
 
         return RAM_index
-    
+            

@@ -12,12 +12,12 @@ print(f'\t encode(INPUT):\n'
 
 
 print(" ========== TEST READING ENCODED RECORDS ========= ")
-file_wb = open("output_files/records_file", "wb")
+file_wb = open("project/tests/unitary_tests/output_files/records_file", "wb")
 file_wb.write(binary_stream)
 file_wb.close()
 print(f'\twrote: {binary_stream}')
 
-file_rb = open("output_files/records_file", "rb")
+file_rb = open("project/tests/unitary_tests/output_files/records_file", "rb")
 recovered_binary_stream = file_rb.read(stream_size)
 file_rb.close()
 print(f'\trecovered: {recovered_binary_stream}')
