@@ -1,5 +1,5 @@
 test: env run_test
-all: clean_tmp env run
+all: clean_tmp env
 zip: clean_tmp clean_env zip
 commit: clean_tmp clean_env
 
