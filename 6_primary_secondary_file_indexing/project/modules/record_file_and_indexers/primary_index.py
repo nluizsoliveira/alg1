@@ -9,14 +9,14 @@ class PrimaryIndex():
         self.file = File(self.path)
         self.RAM_index = self.get_RAM_index()
     
-    # Doubt: Should appending/deleting be bufferized? performance x reliability to unexpected interrupts 
+    # I'm just inserting/deleting from RAM_index
+    # Primary Index File will be updated when Orchestrator's 'EXIT' command calls PrimaryIndex.update_file
     def append(self, id_, position, stream_size, pack_format):
         is_duplicate = self.search(id_)
         if is_duplicate:
             return -1
         index_line = self.get_index_line(id_, position, stream_size, pack_format)
         id_, position, stream_size = self.cast_args_to_int((id_, position, stream_size))
-        self.file.append_record(index_line)
         self.RAM_index.update({id_: (position, stream_size, pack_format)})
         return 1
 
@@ -25,10 +25,10 @@ class PrimaryIndex():
 
     def search(self, id_):
         id_ = int(id_)
-        compressed_values = self.RAM_index.get(id_)
-        if compressed_values: 
-            position, stream_size, pack_format  = compressed_values
-            position, stream_size  = self.cast_args_to_int((position, stream_size))
+        compressed_record = self.RAM_index.get(id_)
+        if compressed_record: 
+            position, stream_size, pack_format = compressed_record
+            position, stream_size = self.cast_args_to_int((position, stream_size))
             return id_, position, stream_size, pack_format
         return None
     
@@ -50,9 +50,34 @@ class PrimaryIndex():
         index_list = [line.split(',') for line in index_lines]
 
         RAM_index = {
-            int(id_): (start_position, stream_size, pack_format) 
-            for id_, start_position, stream_size, pack_format in index_list
+            int(id_): (start_position, stream_size, pack_format)
+            for id_, start_position, stream_size, pack_format
+            in index_list
         }
 
         return RAM_index
-            
+    
+    # I'm just inserting/deleting from RAM_index
+    # Primary file will be updated when Orchestrator's 'EXIT' command calls PrimaryIndex.update_file
+    def remove(self, id_):
+        compressed_record = self.search(id_)
+        if compressed_record:
+            return self.RAM_index.pop(id_)
+        return None
+
+    # TO IMPROVE: make a method in File() that automatically writes a buffer
+    # and updates size. This should not be primary index responsibility but file itself.
+    def update_file(self):
+        buffer = ""
+        active_records =  len(self.RAM_index)
+        file = open(self.path, 'w')
+        for id_, compressed_record in self.RAM_index.items():
+            position, stream_size, pack_format = compressed_record
+            line = self.get_index_line(id_, position, stream_size, pack_format)
+            buffer += line
+        file.write(buffer)
+        file.close()
+
+        self.file.size = active_records
+
+                

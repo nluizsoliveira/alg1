@@ -54,3 +54,4 @@ print(f'\t\t ■ search(999): {result1}')
 
 print(" ========== TEST delete ========= ")
 print('\t 1: delete unexistant id')
+result1 = primary_index.delete(999)
