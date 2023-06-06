@@ -20,10 +20,12 @@ class File():
         self.size = self.get_file_size()
         return appending_position, stream_size, pack_format
     
+    
+
     def read_at_position(self, encoded_record):
-        print("tentou ler esse record comprimido", encoded_record)
-        id_, position, stream_size, pack_format = cast_numerical_elems_to_int(encoded_record)
-        print("decomprimiu: ", cast_numerical_elems_to_int(encoded_record))
+        # BUG: RecordFile.read_at_position requires 3 values
+        # while PrimaryIndex.read_at_position requires 4 values
+        position, stream_size, pack_format = cast_numerical_elems_to_int(encoded_record)
         file = open(self.path, 'rb')
         file.seek(position)
         encoded_stream = file.read(stream_size)

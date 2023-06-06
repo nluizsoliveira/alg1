@@ -1,5 +1,6 @@
 from project.modules.binary_handlers.file import File
-from project.modules.indexers.primary_index import PrimaryIndex
+from project.modules.record_file_and_indexers.primary_index import PrimaryIndex
+from project.modules.utils.casters import cast_numerical_elems_to_int
 
 class Orchestrator:
     def __init__(self, folder, debug, debug_path=None):
@@ -31,7 +32,7 @@ class Orchestrator:
     def add(self, id_, *args):
         ERROR_MSG = 'Erro ao inserir registro, chave primária duplicada'
         SUCCESS_MSG = 'Registro inserido'
-
+        id_, *args = cast_numerical_elems_to_int((id_, *args))
         compressed_record = self.primary_index.search(id_)
         if compressed_record:
             self.log(ERROR_MSG)
@@ -50,10 +51,9 @@ class Orchestrator:
             self.log("TODO: Search for author")
     
     def search_by_id(self, id_):
-        compressed_record = self.primary_index.search(id_)
-        if compressed_record:
-            id_, stream_size, pack_format, position = compressed_record
-            record = self.records_file.read_at_position(position, stream_size, pack_format)
+        if self.primary_index.search(id_):
+            id_, *compressed_record = self.primary_index.search(id_)
+            record = self.records_file.read_at_position(compressed_record)
             self.print_found_record(*record)
         else:
             self.log('Não encontrado')
@@ -63,7 +63,7 @@ class Orchestrator:
 
     # Logically removing on indexes
     def remove(self, id_, *args):
-        pass
+        return
         if id: 
             compressed_record = self.primary_index.search(id_)
             if compressed_record:

@@ -1,5 +1,5 @@
 from project.modules.orchestrator import Orchestrator
-from project.modules.parsers.input_parser import parse_input
+from project.modules.utils.parsers import parse_input
 
 RECORDS_FILE_AND_INDEXES_FOLDER = 'project/output_files/'
 

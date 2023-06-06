@@ -36,3 +36,13 @@ class RecordFile(File):
         file.seek(edit_position)
         file.write(binary_flag)
         file.close()
+    
+    def read_at_position(self, encoded_record):
+        id_, position, stream_size, pack_format = encoded_record
+        file = open(self.path, 'rb')
+        file.seek(position)
+        encoded_stream = file.read(stream_size)
+        fields = decode(pack_format, encoded_stream)
+        file.close()
+
+        return fields

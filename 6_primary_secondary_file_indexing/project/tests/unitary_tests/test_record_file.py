@@ -20,12 +20,14 @@ def test_append_records():
 
     return appended_records
     
+# BUG: RecordFile.read_at_position returns 3 values
+# while PrimaryIndex.read_at_position returns 4 values
 
 def test_read_records(appended_records):
     print(" ========== TEST READ RECORDS ========= ")
     for id_, insert_position, size, format in appended_records: 
         print('\trecovering: ', insert_position, size, format)
-        fields = record_file.read_at_position(insert_position, size, format)
+        fields = record_file.read_at_position((id_, insert_position, size, format))
         print('\trecovered: ', fields)
 
 def test_read_entire_file():

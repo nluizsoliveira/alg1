@@ -25,7 +25,7 @@ def test_read_records(appended_records):
     print(" ========== TEST READ RECORDS ========= ")
     for id_, insert_position, size, format in appended_records: 
         print('\trecovering: ', insert_position, size, format)
-        fields = record_file.read_at_position(insert_position, size, format)
+        fields = record_file.read_at_position((insert_position, size, format))
         print('\trecovered: ', fields)
 
 def test_read_entire_file():
