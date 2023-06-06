@@ -1,8 +1,8 @@
-from project.modules.indexers.primary_index import PrimaryIndex
-from project.modules.binary_handlers.file import File
+from project.modules.record_file_and_indexers.primary_index import PrimaryIndex
+from project.modules.record_file_and_indexers.record_file import RecordFile
 
 
-records_file = File('project/tests/unitary_tests/output_files/records_file')
+records_file = RecordFile('project/tests/unitary_tests/output_files/records_file')
 primary_index = PrimaryIndex('project/tests/unitary_tests/output_files/primary_index')
 
 print(" ========== TEST get_RAM_index ========= ")
@@ -35,21 +35,22 @@ primary_index.append(id_2, *compressed_record_2)
 
 print(f'\t 2. File after appending 2 records:\n\t\t {primary_index.file.read_entire_file()}')
 
-print("========== TEST  ========= ")
-
+print("========== TEST  get_RAM_index ========= ")
+print(f'\t 1. After inserting 2 records')
 print(f'\t\t ■ RAM_index: {primary_index.RAM_index}')
 
 
 print(" ========== TEST search ========= ")
-print('\t test 3: search existant string id')
-result1 = primary_index.search(id_)
-print(f'\t\t ■ RAM_index: {result1}')
+print('\t 1: search existant string id')
+result1 = primary_index.search(id_1)
+print(f'\t\t ■ search(1): {result1}')
 
-print('\t test 4: search existant int id')
-result1 = primary_index.search(int(id_))
-print(f'\t\t ■ RAM_index: {result1}')
+result2 = primary_index.search(id_2)
+print(f'\t\t ■ search(2): {result2}')
 
-
-print('\t test 5: search not existent id')
+print('\t 2: search not existent id')
 result1 = primary_index.search(999)
-print(f'\t\t ■ RAM_index: {result1}')
+print(f'\t\t ■ search(999): {result1}')
+
+print(" ========== TEST delete ========= ")
+print('\t 1: delete unexistant id')

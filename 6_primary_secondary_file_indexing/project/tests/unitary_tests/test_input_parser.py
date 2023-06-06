@@ -1,4 +1,4 @@
-from project.modules.parsers.input_parser import parse_input
+from project.modules.utils.parsers import parse_input
 
 CASES_STRING = """ADD id='5' titulo='The Diary of a Young Girl' autor='Anne Frank'
 ADD id='5' titulo='The Diary of a Young Girl' autor='Anne Frank'

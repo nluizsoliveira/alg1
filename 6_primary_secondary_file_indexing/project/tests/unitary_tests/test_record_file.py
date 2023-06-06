@@ -1,6 +1,6 @@
-from project.modules.binary_handlers.file import File
+from project.modules.record_file_and_indexers.record_file import RecordFile
 
-record_file = File('project/tests/unitary_tests/output_files/records_file')
+record_file = RecordFile('project/tests/unitary_tests/output_files/records_file')
 
 def test_append_records():
     print(" ========== TEST APPEND RECORDS ========= ")
@@ -34,7 +34,19 @@ def test_read_entire_file():
     print(buffer)
     return buffer
 
+def test_delete_record(position, stream_size, pack_format):
+    print(" ========== TEST DELETE RECORD ========= ")
+    buffer = record_file.read_entire_file()
+    print('before deleting record at position', position, buffer)
+    record_file.delete_record(position, stream_size, pack_format)
+    buffer = record_file.read_entire_file()
+    print('after deleting record at position', position, buffer)
+
 appended_records = test_append_records()
 test_read_records(appended_records)
 test_read_entire_file()
 
+id_, appending_position, stream_size, pack_format = appended_records[0]
+appending_position = int(appending_position)
+stream_size = int(stream_size)
+test_delete_record(appending_position, stream_size, pack_format)
