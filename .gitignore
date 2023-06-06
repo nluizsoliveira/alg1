@@ -1,4 +1,3 @@
 __pycache__/
-__env/
-__project.egg-info/
-__output_files/
+env/
+project.egg-info/
