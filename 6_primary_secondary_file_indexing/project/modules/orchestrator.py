@@ -1,4 +1,5 @@
 from project.modules.record_file_and_indexers.primary_index import PrimaryIndex
+from project.modules.record_file_and_indexers.secondary_index import SecondaryIndex
 from project.modules.record_file_and_indexers.record_file import RecordFile
 from project.modules.utils.casters import cast_numerical_elems_to_int
 
@@ -6,6 +7,7 @@ class Orchestrator:
     def __init__(self, folder, debug, debug_path=None):
         self.records_file = RecordFile(folder + 'records_file')
         self.primary_index = PrimaryIndex(folder + 'primary_index')
+        self.secondary_index = SecondaryIndex(folder + 'secondary_index')
         self.debug = debug
         self.debug_path = debug_path
 
@@ -29,26 +31,26 @@ class Orchestrator:
             dump_file = open(self.debug_path, 'a')
             dump_file.write(string + '\n')
 
-    def add(self, id_, *args):
+    def add(self, id_, title, author):
         ERROR_MSG = 'Erro ao inserir registro, chave primária duplicada'
         SUCCESS_MSG = 'Registro inserido'
-        id_, *args = cast_numerical_elems_to_int((id_, *args))
-        compressed_record = self.primary_index.search(id_)
-        if compressed_record:
+        id_ = int(id_)
+        if self.primary_index.search(id_):
             self.log(ERROR_MSG)
         else:
-            self.append_to_all_files(id_, *args)
+            self.append_to_all_files(id_, title, author)
             self.log(SUCCESS_MSG)
 
-    def append_to_all_files(self, id_, *args):
-        compressed_record = self.records_file.append_record((id_, *args))
+    def append_to_all_files(self, id_, title, author):
+        compressed_record = self.records_file.append_record((id_, title, author))
         self.primary_index.append(id_, *compressed_record)
+        self.secondary_index.append(author, id_)
     
     def search(self, id_, title, author):
         if id_:
             self.search_by_id(id_)
         elif author: 
-            self.log("TODO: Search for author")
+            self.search_by_author(author)
     
     def search_by_id(self, id_):
         if self.primary_index.search(id_):
@@ -58,22 +60,44 @@ class Orchestrator:
         else:
             self.log('Não encontrado')
     
+    def search_by_author(self, author):
+        ids = self.secondary_index.search(author)
+        if ids:
+            for id in ids:
+                self.search_by_id(id)
+        else:
+            self.log('Não encontrado')
+    
     def print_found_record(self, id_, title, author, is_active):
         self.log(f'{id_} - {title} - {author}')
 
     # Logically removing on indexes
-    def remove(self, id_, *args):
+    def remove(self, id_, title, author):
         if id_: 
-            removed_RAM_record = self.primary_index.remove(id_)
-            if removed_RAM_record:
-                self.records_file.delete_record(*removed_RAM_record)
-                self.log('Registro removido')
-            else:
-                self.log('Erro ao remover')
-        
+            self.remove_by_id(id_)
+        elif author:
+            self.remove_by_author(author)
         else:
             self.log('Erro ao remover')
     
+    def remove_by_id(self, id_):
+        removed_RAM_record = self.primary_index.remove(id_)
+        if removed_RAM_record:
+            self.records_file.delete_record(*removed_RAM_record)
+            # TODO: Remover do indice secundario
+            self.log('Registro removido')
+        else:
+            self.log('Erro ao remover')
+    
+    def remove_by_author(self, author):
+        removed_ids = self.secondary_index.remove(author)
+        if removed_ids:
+            for id_ in removed_ids:
+                self.log('Registro removido')
+                #TODO: remover do indice primario
+        else:
+            self.log('Erro ao remover')
+
     def exit(self, *args):
         self.primary_index.update_file()
 
