@@ -41,8 +41,8 @@ class SecondaryIndex():
         return RAM_index
     
     def remove(self, key):
-        values = self.search(key)
-        return values
+        return self.RAM_index.pop(key, None)
+
 
 """
 key|id_,id_,id .split('|')
