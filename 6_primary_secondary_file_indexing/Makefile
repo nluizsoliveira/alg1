@@ -1,7 +1,7 @@
 test: env run_test
 all: clean_tmp env
-zip: clean_tmp clean_env zip
-commit: clean_tmp clean_env
+clean: clean_tmp clean_env
+zip: clean zip
 
 env:
 	sh make_scripts/set_env.sh
