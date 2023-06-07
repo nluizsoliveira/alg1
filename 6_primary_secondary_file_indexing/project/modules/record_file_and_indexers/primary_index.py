@@ -62,7 +62,8 @@ class PrimaryIndex():
     def remove(self, id_):
         compressed_record = self.search(id_)
         if compressed_record:
-            return self.RAM_index.pop(id_)
+            self.RAM_index.pop(id_)
+            return compressed_record
         return None
 
     # TO IMPROVE: make a method in File() that automatically writes a buffer

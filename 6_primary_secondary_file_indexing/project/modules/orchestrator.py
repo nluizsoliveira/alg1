@@ -81,20 +81,21 @@ class Orchestrator:
             self.log('Erro ao remover')
     
     def remove_by_id(self, id_):
-        removed_RAM_record = self.primary_index.remove(id_)
-        if removed_RAM_record:
-            self.records_file.delete_record(*removed_RAM_record)
-            # TODO: Remover do indice secundario
+        compressed_removed_RAM_record = self.primary_index.remove(id_)
+        if compressed_removed_RAM_record:
+            removed_record = self.records_file.delete_record(*compressed_removed_RAM_record)
+            author = removed_record[2]
+            self.secondary_index.remove_value(key=author, value=id_)
             self.log('Registro removido')
         else:
             self.log('Erro ao remover')
     
     def remove_by_author(self, author):
-        removed_ids = self.secondary_index.remove(author)
+        removed_ids = self.secondary_index.remove_key(author)
         if removed_ids:
             for id_ in removed_ids:
                 self.log('Registro removido')
-                #TODO: remover do indice primario
+                self.primary_index.remove(id_)
         else:
             self.log('Erro ao remover')
 

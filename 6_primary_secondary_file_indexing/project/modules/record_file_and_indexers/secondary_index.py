@@ -40,8 +40,13 @@ class SecondaryIndex():
             RAM_index.update({key: ids})
         return RAM_index
     
-    def remove(self, key):
+    def remove_key(self, key):
         return self.RAM_index.pop(key, None)
+    
+    def remove_value(self, key, value):
+        values = self.RAM_index.get(key)
+        values.remove(value)
+        return value
 
 
 """
