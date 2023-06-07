@@ -16,7 +16,7 @@ do
     expected_output_file="$test_cases_folder/$case_number.out"
     returned_output_file="$test_cases_folder/$case_number.returned"
 
-    python3 project/main.py < "$input_file" > "$returned_output_file"
+    python3 main.py < "$input_file" > "$returned_output_file"
 
     if cmp -s "$returned_output_file" "$expected_output_file";
     then
