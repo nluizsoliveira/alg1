@@ -29,10 +29,10 @@ class Orchestrator:
         if self.primary_index.search(id_):
             print(ERROR_MSG)
         else:
-            self.append_to_all_files(id_, title, author)
+            self.add_to_record_file_and_indexes(id_, title, author)
             print(SUCCESS_MSG)
 
-    def append_to_all_files(self, id_, title, author):
+    def add_to_record_file_and_indexes(self, id_, title, author):
         compressed_record = self.records_file.append_record((id_, title, author))
         self.primary_index.append(id_, *compressed_record)
         self.secondary_index.append(author, id_)
@@ -62,7 +62,6 @@ class Orchestrator:
     def print_found_record(self, id_, title, author, is_active):
         print(f'{id_} - {title} - {author}')
 
-    # Logically removing on indexes
     def remove(self, id_, title, author):
         if id_: 
             self.remove_by_id(id_)
