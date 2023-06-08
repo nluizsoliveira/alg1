@@ -1,7 +1,7 @@
 ## **On running the project**
 
-I'm using `Makefile` diretifs to automate preparing, running an testing the project. 
-As makefile diretifs call `bash` scripts, it's necessarry to run it in a `linux/GNU-like` environment. 
+I'm using `Makefile` directives to automate preparing, running an testing the project. 
+As makefile directives call `bash` scripts, it's necessarry to run it in a `linux/GNU-like` environment. 
 
 ### Testing 
 ```bash
