@@ -19,7 +19,6 @@ class SecondaryIndex():
         else:
             self.RAM_index.update({key: [value]})
 
-
     def search(self, key):
         return self.RAM_index.get(key)
     
@@ -47,8 +46,21 @@ class SecondaryIndex():
         values = self.RAM_index.get(key)
         values.remove(value)
         return value
+    
+    def update_file(self):
+        buffer = ""
+        active_records =  len(self.RAM_index)
+        file = open(self.path, 'w')
+        for key, values in self.RAM_index.items():
+            line = self.get_index_line(key, values)
+            buffer += line
+        file.write(buffer)
+        file.close()
 
+        self.file.size = active_records
 
-"""
-key|id_,id_,id .split('|')
-"""
+    def get_index_line(self, key, values):
+        values_str = ""
+        for value in values:
+            values_str+=f'{value}{self.SEP_2}'
+        return f'{key}{self.SEP_1}{values_str}{self.SEP_3}'

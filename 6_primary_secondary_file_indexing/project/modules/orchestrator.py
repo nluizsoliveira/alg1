@@ -92,7 +92,7 @@ class Orchestrator:
 
     def exit(self, *args):
         self.primary_index.update_file()
-        # self.secondary_index.update_file()
+        self.secondary_index.update_file()
 
 
 
