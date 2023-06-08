@@ -75,7 +75,7 @@ through `<struct>` module, which encodes/decodes content trough
 ```python
 # > PSEUDO CODE <
 
-# ENCODING RECORD ON <RecordFile>. WRITING BINARY STREAM ON FILE. 
+# <RecordFile>: ENCODING RECORD. WRITING BINARY STREAM ON FILE. 
 INPUT: ('c', 42, 'string')
     encode(INPUT):
         stream_size: 14,
@@ -83,20 +83,19 @@ INPUT: ('c', 42, 'string')
         pack_format: 'ci6s'
     RecordFile.write(binary_stream)
 
-# APPENDING ENCODED RECORD ON <PrimaryIndex>
+# <PrimaryIndex>: APPENDING ENCODED RECORD ON RAM_INDEX
 ENCODED_RECORD: (14, 'ci6s') #(stream_size, pack_format)
     append(id_, ENCODED_RECORD):
-        position = ftell(eof)
+        position = PrimaryIndex.ftell(eof)
         RAM_index.append(id_, position, stream_size, pack_format)
 
-# READING ENCODED RECORD ON <PrimaryIndex>
+# <PrimaryIndex>: RECOVERING ENCODED RECORD THROUGH ITS ID
     search(id_):
         RAM_entry = RAM_index.get(id)
         id_, position, stream_size, pack_format = RAM_entry
         PrimaryIndex.RecordFile.read(position, stream_size, pack_format)
 
-# READING ENCODED RECORD ON <RecordFile>
-<RecordFile>
+# <RecordFile> READING BINARY STREAM THROUGH IT'S ENCODED RECORD
 RAM_INDEX_ENTRY: (position, stream_size, pack_format)
         file.seek(position)
         binary_stream = file.read(stream_size)
