@@ -73,6 +73,8 @@ through `<struct>` module, which encodes/decodes content trough
 #### **Example: encode('c', 42, 'string'), write it on RecordFile, store it on PrimaryIndex, retreive it from PrimaryIndex, and decode it**
 
 ```python
+# > PSEUDO CODE <
+
 # ENCODING RECORD ON <RecordFile>. WRITING BINARY STREAM ON FILE. 
 INPUT: ('c', 42, 'string')
     encode(INPUT):
