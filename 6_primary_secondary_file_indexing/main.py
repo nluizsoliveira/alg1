@@ -5,7 +5,6 @@ RECORDS_FILE_AND_INDEXES_FOLDER = 'project/output_files/'
 
 orchestrator = Orchestrator(
     folder = RECORDS_FILE_AND_INDEXES_FOLDER,
-    debug = False, 
 )
 
 operation = ''
