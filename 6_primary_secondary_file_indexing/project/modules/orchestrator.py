@@ -77,6 +77,7 @@ class Orchestrator:
             removed_record = self.records_file.delete_record(*compressed_removed_RAM_record)
             author = removed_record[2]
             self.secondary_index.remove_value(key=author, value=id_)
+            self.records_file.delete_record(*compressed_removed_RAM_record)
             print('Registro removido')
         else:
             print('Erro ao remover')
